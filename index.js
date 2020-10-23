@@ -101,15 +101,15 @@ export default function useIntlDates({ locale = "default" } = {}) {
   // Set additional values to export
   useEffect(() => {
     if (startValues) {
-      let dateYMDString = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;
+      let dateYMD = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;
 
-      let dateDMYString = `${startValues[4].value}-${startValues[2].value}-${startValues[6].value}`;
+      let dateDMY = `${startValues[4].value}-${startValues[2].value}-${startValues[6].value}`;
 
-      let dateMDYString = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
+      let dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
 
-      setdateYMD(dateYMDString);
-      setdateDMY(dateDMYString);
-      setdateMDY(dateMDYString);
+      setdateYMD(dateYMD);
+      setdateDMY(dateDMY);
+      setdateMDY(dateMDY);
       setWeekdayLong(startValues[0].value);
       setMonthNumeric(startValues[2].value);
       setYear(startValues[6].value);
@@ -119,7 +119,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
   // Set monthLong weekdayLong values
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat(
-      !!locale ? locale : "default",
+      locale,
       intlMonthWeekdayLongOptions
     );
     const formatted = formatter.formatToParts(new Date());
@@ -131,7 +131,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
   // Set monthShort and weekdayShort values
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat(
-      !!locale ? locale : "default",
+      locale,
       intlMonthWeekdayShortOptions
     );
     const formatted = formatter.formatToParts(new Date());
