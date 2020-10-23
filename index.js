@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function useIntlDates({ locale }) {
+export default function useIntlDates({ locale = "default" } = {}) {
   const [intlBaseOptions] = useState({
     weekday: "long",
     day: "numeric",
@@ -76,12 +76,9 @@ export default function useIntlDates({ locale }) {
 
   // Set startValues with Intl
   useEffect(() => {
-    const formatter = new Intl.DateTimeFormat(
-      !!locale ? locale : "default",
-      intlBaseOptions
-    );
+    const formatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
     setStartValues(formatter.formatToParts(new Date()));
-  }, [intlBaseOptions, locale]);
+  }, [intlBaseOptions]);
 
   // Derive this week start and end dates and set in state
   useEffect(() => {
