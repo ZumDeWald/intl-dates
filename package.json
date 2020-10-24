@@ -1,6 +1,6 @@
 {
   "name": "useintldates",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Easily work with dates using the JavaScript Intl methods",
   "main": "index.js",
   "scripts": {
