@@ -110,8 +110,8 @@ export default function useIntlDates({ locale = "default" } = {}) {
       setdateYMD(dateYMD);
       setdateDMY(dateDMY);
       setdateMDY(dateMDY);
-      setWeekdayLong(startValues[0].value);
       setMonthNumeric(startValues[2].value);
+      setDayOfMonth(startValues[4].value);
       setYear(startValues[6].value);
     }
   }, [startValues]);
