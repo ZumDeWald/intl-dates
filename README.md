@@ -26,31 +26,56 @@ Great news! This code uses the power of the [JavaScript Intl object](https://dev
 
 ### There are only 2 requirements for using this hook:
 
-1. **React**: The hook will only run in a React app v16.8.0 and up (React with support for hooks) and must be called in a functional component (not class based) in accordance with the [React docs](https://reactjs.org/docs/hooks-intro.html).
-2. The browser must support **Intl.DateTimeFormat.formatToParts**. Check [caniuse.com](https://caniuse.com/?search=Intl%3A%20DateTimeFormat%3A%20formatToParts) to make sure your target browsers are supported (_92.77% at time of writing_)
+1.  **React**: The hook will only run in a React app v16.8.0 and up (React with support for hooks) and must be called in a functional component (not class based) in accordance with the [React docs](https://reactjs.org/docs/hooks-intro.html).
+2.  The browser must support **Intl.DateTimeFormat.formatToParts**. Check [caniuse.com](https://caniuse.com/?search=Intl%3A%20DateTimeFormat%3A%20formatToParts) to make sure your target browsers are supported (_92.77% at time of writing_)
 
 ## Options
 
 This hook will accept an object of these options (see further down for example):
 
 - locale [_optional_]<br>
-  -- default: "default" [_defaults to the locale identified by the browser_]<br>
-  -- This option allows you to pass a specific locale to the call to the Intl constructor used inside the hook. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) will work.<br>
-  -- Examples: "en-US", "da-DK", "de", "es"
+  \-- default: "default" [_defaults to the locale identified by the browser_]<br>
+  \-- This option allows you to pass a specific locale to the call to the Intl constructor used inside the hook. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) will work.<br>
+  \-- Examples: "en-US", "da-DK", "de", "es"
 
 ## Examples
 
-1. Common use - get date related info and format it as you need. The date information is based on the current day. Consider the following if it were Saturday October 24, 2020\.<br>
-  ``` import useintldates from 'useintldates'; // Bring the hook into your component
+1. _Common use_ - get date related info and format it as you need. The date information is based on the current day. Consider the following if it were _Saturday October 24, 2020_.<br>
 
-const MyComponent = () => { const dates = useintldates(); // Retrieve and destructure the dates object from the useintldates hook
+```
+import useintldates from 'useintldates'; // Bring the hook into your component
 
-return(
+const MyComponent = () => {
+  const dates = useintldates();
+  // Retrieve and destructure the dates object from the useintldates hook
 
-<div>
-  <code>Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}</code>
-</div>
+  return(
+    <div>
+    'Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}'
+    </div>
+  )
+}
 
-) }
+// Would return "Today is Saturday Oct 24, 2020"
+```
 
-// Would return "Today is Saturday Oct 24, 2020" ```
+2. _Date Ranges_ - Say you need the date for the first and last day of the week (Sunday and Saturday) to request a range of data from an API for the current week. <br /> <br />
+   The following would make the request with the date of Sunday in the current week as the weekStartDate and the date for Saturday as the weekEndDate in the format 'YYYY-MM-DD' <br />
+
+```
+    import React, { useEffect } from 'react';
+    import useintldates from 'useintldates'; // Bring the hook into your component
+
+    const MyComponent = () => {
+      const dates = useintldates();
+      // Retrieve and destructure the dates object from the useintldates hook
+
+    useEffect(() => {
+      fetch('<https://urlToYourAPI/getByDateRange?startDate=${dates.weekStartDate}&endDate=${dates.weekEndDate}>') })
+
+    return(
+
+    // Use the returned data
+
+    ) }
+```
