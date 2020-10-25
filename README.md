@@ -52,14 +52,16 @@ This hook will accept an object of these options ([see example below](#examples)
 
 ## Examples
 
-1. <u>_Common use_</u> - get date related info and format it as you need. The date information is based on the current day. Consider the following if it were _Saturday October 24, 2020_.<br />
+#### Common Use
+
+Get date related info and format it as you need. The date information is based on the current day. Consider the following if it were _Saturday October 24, 2020_.<br />
 
 ```
 import useintldates from 'useintldates'; // Bring the hook into your component
 
 const MyComponent = () => {
   const dates = useintldates();
-  // Retrieve and destructure the dates object from the useintldates hook
+  // Retrieve and destructure the 'dates' object from the useintldates hook
 
   return(
     <div>
@@ -69,10 +71,44 @@ const MyComponent = () => {
 }
 
 // Would return "Today is Saturday Oct 24, 2020"
+
 ```
 
-2. <u>_Date Ranges_</u> - Say you need the date for the first and last day of the week (Sunday and Saturday) to request a range of data from an API for the current week. <br /> <br />
-   The following would make the request with the date of Sunday in the current week as the weekStartDate and the date for Saturday as the weekEndDate in the format 'YYYY-MM-DD' <br />
+<br />
+
+#### Specify Locale
+
+Passing in a specific locale through the options object will return the data in a specific language. Consider the following if you wanted to be sure the day of the week and month returned in Danish.
+
+> Note: the default locale is set to 'default', which should allow the browser to choose which locale is used.
+
+```
+import useintldates from 'useintldates'; // Bring the hook into your component
+
+const MyComponent = () => {
+  const dates = useintldates({
+    locale: "da-DK"
+    // Set the locale to return in Danish
+    });
+  // Retrieve and destructure the 'dates' object from the useintldates hook
+
+  return(
+    <div>
+    'I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}'
+    </div>
+  )
+}
+
+// Would return "I dag er lørdag den 24. okt 2020"
+
+```
+
+<br />
+
+#### Date Ranges
+
+Say you need the date for the first and last day of the week (Sunday and Saturday) to request a range of data from an API for the _current_ week. <br /> <br />
+The following would make the request with the date of Sunday in the current week as the weekStartDate and the date for Saturday as the weekEndDate in the format 'YYYY-MM-DD' <br />
 
 ```
     import React, { useEffect } from 'react';
@@ -80,16 +116,19 @@ const MyComponent = () => {
 
     const MyComponent = () => {
       const dates = useintldates();
-      // Retrieve and destructure the dates object from the useintldates hook
+      // Retrieve and destructure the 'dates' object from the useintldates hook
 
-    useEffect(() => {
-      fetch('<https://urlToYourAPI/getByDateRange?startDate=${dates.weekStartDate}&endDate=${dates.weekEndDate}>') })
+      useEffect(() => {
+        fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${dates.weekEndDate}`)
+      }, [])
 
-    return(
+      return(
 
-    // Use the returned data
+      // Use the returned data
 
-    ) }
+      )
+
+    }
 ```
 
 ## Feature List
