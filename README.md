@@ -38,9 +38,9 @@ The `dates` object returned by the `useintldates` hook contains the following ke
 
 - `monthShort`: <br /> &nbsp; String containing the month expressed as a short name, e.g. "Oct"
 
-- `weekEndDate`: ([see use case further down](#examples)) <br /> &nbsp; String containing the full date of the Saturday of the current week in the following format: "YYYY-MM-DD"
+- `weekEndDate`: ([see use case further down](#date-ranges)) <br /> &nbsp; String containing the full date of the Saturday of the current week in the following format: "YYYY-MM-DD"
 
-- `weekStartDate`: ([see use case further down](#examples)) <br /> &nbsp; String containing the full date of the Sunday of the current week in the following format: "YYYY-MM-DD"
+- `weekStartDate`: ([see use case further down](#date-ranges)) <br /> &nbsp; String containing the full date of the Sunday of the current week in the following format: "YYYY-MM-DD"
 
 - `weekdayLong`: <br /> &nbsp; String containing the full name of the current weekday, e.g. "Saturday"
 
@@ -56,15 +56,15 @@ Great news! This code uses the power of the [JavaScript Intl object](https://dev
 
 1.  **React**: The hook will only run in a React app v16.8.0 and up (React with support for hooks) and must be called in a functional component (not class based) in accordance with the [React docs](https://reactjs.org/docs/hooks-intro.html).
 
-2.  The browser must support **Intl.DateTimeFormat.formatToParts**. Check [caniuse.com](https://caniuse.com/?search=Intl%3A%20DateTimeFormat%3A%20formatToParts) to make sure your target browsers are supported (_92.77% at time of writing_)
+2.  The browser must support **Intl.DateTimeFormat.formatToParts**. Check [caniuse.com](https://caniuse.com/?search=Intl%3A%20DateTimeFormat%3A%20formatToParts) to make sure your target browsers are supported (_92.77% Global support at time of writing_)
 
 ## Options
 
-This hook will accept an object of these options ([see example below](#examples)):
+This hook will accept an object of these options ([see usage below](#specify-locale)):
 
 1. `locale` [_optional_]<br />
    - default: "default" &nbsp; [_defaults to the locale identified by the browser_]<br />
-   - This option allows you to pass a specific locale in the call to the Intl constructor used inside the hook. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) will work.<br />
+   - This option allows you to pass a specific locale in the call to the Intl constructor used inside the hook. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) will work.<br />
    - Examples: "en-US", "da-DK", "de", "es"
 
 ## Examples
