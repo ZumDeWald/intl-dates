@@ -1,11 +1,11 @@
 # useIntlDates
 
-This package provides a quick and easy way to work with dates in the form of returning an object containing commonly used, helpful date related data. It can also be passed an [options object](#options) containing a specified locale to bring back language specific data. Currently the package exports a custom React hook that returns an object with helpful date related data.
+This package provides a quick and easy way to work with dates in the form of returning an object containing commonly used, helpful date related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). Currently the package exports a custom React hook that returns an object with helpful date related data.
 
 ## What can I get out of this package
 
 This hook returns an object named 'dates' with various date related information allowing you to simply grab it and arrange it as you need. ([see example below](#examples))<br>
-The object returned by this React hook contains the following ket/value pairs:
+The 'dates' object returned by this React hook contains the following key/value pairs:
 
 - dateDMY: (String containing the current date in the following format: "DD-MM-YYYY")
 - dateMDY: (String containing the current date in the following format: "MM-DD-YYYY")
@@ -79,3 +79,11 @@ const MyComponent = () => {
 
     ) }
 ```
+
+## Feature List
+
+This list includes current and planned features. Check the issues page for a more exhaustive look at what features are being added and where they stand in the development process.
+
+- [x] No dependencies, pure JavaScript code running in the hook
+- [x] Options object accepts locale property to specify a locale/language for Intl to use
+- [ ] Options object will allow a 'date' property to get back data from a specified date instead of only from the current day.
