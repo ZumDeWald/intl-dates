@@ -4,7 +4,7 @@ This package provides a quick and easy way to work with dates in the form of ret
 
 ## What can I get out of this package
 
-This hook returns an object with various date related information allowing you to simply grab it and arrange it as you need.<br>
+This hook returns an object named 'dates' with various date related information allowing you to simply grab it and arrange it as you need. ([see example below](#examples))<br>
 The object returned by this React hook contains the following ket/value pairs:
 
 - dateDMY: (String containing the current date in the following format: "DD-MM-YYYY")
@@ -37,3 +37,20 @@ This hook will accept an object of these options (see further down for example):
   -- default: "default" [_defaults to the locale identified by the browser_]<br>
   -- This option allows you to pass a specific locale to the call to the Intl constructor used inside the hook. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) will work.<br>
   -- Examples: "en-US", "da-DK", "de", "es"
+
+## Examples
+
+1. Common use - get date related info and format it as you need. The date information is based on the current day. Consider the following if it were Saturday October 24, 2020\.<br>
+  ``` import useintldates from 'useintldates'; // Bring the hook into your component
+
+const MyComponent = () => { const dates = useintldates(); // Retrieve and destructure the dates object from the useintldates hook
+
+return(
+
+<div>
+  <code>Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}</code>
+</div>
+
+) }
+
+// Would return "Today is Saturday Oct 24, 2020" ```
