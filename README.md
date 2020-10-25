@@ -1,8 +1,25 @@
 # useIntlDates
 
-This package provides a quick and easy way to work with dates by returning an object containing commonly used, helpful date related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). Currently the package exports a custom React hook that returns an object with helpful date related data.
+This package provides a quick and easy way to work with dates by returning an object containing commonly used, helpful date related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). <br />
 
-## What can I get out of this package
+Currently the package exports a custom React hook that returns an object with helpful date related data.
+
+### Sections:
+
+1. [Installation](#installation)
+2. [Date Information](#date-information)
+3. [Dependencies](#dependencies)
+4. [Options](#options)
+5. [Examples](#examples)
+6. [Feature List](#feature-list)
+
+## Installation
+
+- This npm package can be installed by running `npm install useintldates --save-dev`
+- See [Date Information](#date-information) for more info on what data is returned
+- See [Examples](#examples) further down to see how the package would be brought into your project
+
+## Date Information
 
 The `useintldates` hook returns an object named `dates` with various date related information allowing you to simply grab it and arrange it as you need. ([see example further down](#examples))<br /> <br />
 The `dates` object returned by the `useintldates` hook contains the following key/value pairs:
