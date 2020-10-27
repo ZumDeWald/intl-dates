@@ -89,22 +89,15 @@ export default function useIntlDates({ locale = "default" } = {}) {
   }-${findEndOfWeek(startValues)}`;
 
   // Set additional values to export
-  useEffect(() => {
-    if (startValues) {
-      let dateYMD = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;
+  dateYMD = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;
 
-      let dateDMY = `${startValues[4].value}-${startValues[2].value}-${startValues[6].value}`;
+  dateDMY = `${startValues[4].value}-${startValues[2].value}-${startValues[6].value}`;
 
-      let dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
+  dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
 
-      setdateYMD(dateYMD);
-      setdateDMY(dateDMY);
-      setdateMDY(dateMDY);
-      setMonthNumeric(startValues[2].value);
-      setDayOfMonth(startValues[4].value);
-      setYear(startValues[6].value);
-    }
-  }, [startValues]);
+  monthNumeric = startValues[2].value;
+  dayOfMonth = startValues[4].value;
+  year = startValues[6].value;
 
   // Set monthLong weekdayLong values
   useEffect(() => {
