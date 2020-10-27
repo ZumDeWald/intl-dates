@@ -1,31 +1,21 @@
 export default function useIntlDates({ locale = "default" } = {}) {
-  const [intlBaseOptions] = {
+  // Set options passed to Intl calls
+  const intlBaseOptions = {
     weekday: "long",
     day: "numeric",
     month: "numeric",
     year: "numeric",
   };
-  const [intlMonthWeekdayLongOptions] = {
+
+  const intlMonthWeekdayLongOptions = {
     month: "long",
     weekday: "long",
   };
-  const [intlMonthWeekdayShortOptions] = {
+
+  const intlMonthWeekdayShortOptions = {
     month: "short",
     weekday: "short",
   };
-  let startValues;
-  let weekStartDate;
-  let weekEndDate;
-  let dateYMD;
-  let dateDMY;
-  let dateMDY;
-  let weekdayLong;
-  let weekdayShort;
-  let dayOfMonth;
-  let monthNumeric;
-  let monthLong;
-  let monthShort;
-  let year;
 
   const findStartOfWeek = (intlValues) => {
     const weekday = intlValues[0].value;
@@ -80,26 +70,26 @@ export default function useIntlDates({ locale = "default" } = {}) {
   startValues = baseFormatter.formatToParts(new Date());
 
   // Derive this week start and end dates and set to variables
-  weekStartDate = `${startValues[6].value}-${
+  const weekStartDate = `${startValues[6].value}-${
     startValues[2].value
   }-${findStartOfWeek(startValues)}`;
 
-  weekEndDate = `${startValues[6].value}-${
+  const weekEndDate = `${startValues[6].value}-${
     startValues[2].value
   }-${findEndOfWeek(startValues)}`;
 
   // Set additional values to export
-  dateYMD = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;
+  const dateYMD = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;
 
-  dateDMY = `${startValues[4].value}-${startValues[2].value}-${startValues[6].value}`;
+  const dateDMY = `${startValues[4].value}-${startValues[2].value}-${startValues[6].value}`;
 
-  dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
+  const dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
 
-  monthNumeric = startValues[2].value;
+  const monthNumeric = startValues[2].value;
 
-  dayOfMonth = startValues[4].value;
+  const dayOfMonth = startValues[4].value;
 
-  year = startValues[6].value;
+  const year = startValues[6].value;
 
   // Set monthLong weekdayLong values
   const longFormatter = new Intl.DateTimeFormat(
@@ -108,22 +98,20 @@ export default function useIntlDates({ locale = "default" } = {}) {
   );
   const longFormatted = longFormatter.formatToParts(new Date());
 
-  monthLong = longFormatted[0].value;
-  weekdayLong = longFormatted[2].value;
+  const monthLong = longFormatted[0].value;
+  const weekdayLong = longFormatted[2].value;
 
   // Set monthShort and weekdayShort values
-  useEffect(() => {
-    const formatter = new Intl.DateTimeFormat(
-      locale,
-      intlMonthWeekdayShortOptions
-    );
-    const formatted = formatter.formatToParts(new Date());
+  const shortFormatter = new Intl.DateTimeFormat(
+    locale,
+    intlMonthWeekdayShortOptions
+  );
+  const shortFormatted = shortFormatter.formatToParts(new Date());
 
-    setMonthShort(formatted[0].value);
-    setWeekdayShort(formatted[2].value);
-  }, [intlMonthWeekdayShortOptions, locale]);
+  const monthShort = shortFormatted[0].value;
+  const weekdayShort = shortFormatted[2].value;
 
-  let dates = {
+  const dates = {
     weekStartDate,
     weekEndDate,
     dateYMD,
