@@ -1,3 +1,4 @@
 import useIntlDates from "./hook";
+import intlDates from "./vanilla";
 
-export default useIntlDates;
+export { useIntlDates as default, intlDates };

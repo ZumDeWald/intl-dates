@@ -1,4 +1,4 @@
-export default function useIntlDates({ locale = "default" } = {}) {
+export default function intlDates({ locale = "default" } = {}) {
   // Set options passed to Intl calls
   const intlBaseOptions = {
     weekday: "long",
@@ -67,7 +67,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
 
   // Set startValues with Intl
   const baseFormatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
-  startValues = baseFormatter.formatToParts(new Date());
+  const startValues = baseFormatter.formatToParts(new Date());
 
   // Derive this week start and end dates and set to variables
   const weekStartDate = `${startValues[6].value}-${
