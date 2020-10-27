@@ -76,25 +76,17 @@ export default function useIntlDates({ locale = "default" } = {}) {
   };
 
   // Set startValues with Intl
-  useEffect(() => {
-    const formatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
-    setStartValues(formatter.formatToParts(new Date()));
-  }, [intlBaseOptions]);
+  const baseFormatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
+  startValues = baseFormatter.formatToParts(new Date());
 
-  // Derive this week start and end dates and set in state
-  useEffect(() => {
-    if (startValues) {
-      let sundayDate = `${startValues[6].value}-${
-        startValues[2].value
-      }-${findStartOfWeek(startValues)}`;
-      let saturdayDate = `${startValues[6].value}-${
-        startValues[2].value
-      }-${findEndOfWeek(startValues)}`;
+  // Derive this week start and end dates and set to variables
+  weekStartDate = `${startValues[6].value}-${
+    startValues[2].value
+  }-${findStartOfWeek(startValues)}`;
 
-      setWeekStartDate(sundayDate);
-      setWeekEndDate(saturdayDate);
-    }
-  }, [startValues]);
+  weekEndDate = `${startValues[6].value}-${
+    startValues[2].value
+  }-${findEndOfWeek(startValues)}`;
 
   // Set additional values to export
   useEffect(() => {
