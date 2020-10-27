@@ -96,20 +96,20 @@ export default function useIntlDates({ locale = "default" } = {}) {
   dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
 
   monthNumeric = startValues[2].value;
+
   dayOfMonth = startValues[4].value;
+
   year = startValues[6].value;
 
   // Set monthLong weekdayLong values
-  useEffect(() => {
-    const formatter = new Intl.DateTimeFormat(
-      locale,
-      intlMonthWeekdayLongOptions
-    );
-    const formatted = formatter.formatToParts(new Date());
+  const longFormatter = new Intl.DateTimeFormat(
+    locale,
+    intlMonthWeekdayLongOptions
+  );
+  const longFormatted = longFormatter.formatToParts(new Date());
 
-    setMonthLong(formatted[0].value);
-    setWeekdayLong(formatted[2].value);
-  }, [intlMonthWeekdayLongOptions, locale]);
+  monthLong = longFormatted[0].value;
+  weekdayLong = longFormatted[2].value;
 
   // Set monthShort and weekdayShort values
   useEffect(() => {
