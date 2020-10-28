@@ -12,7 +12,7 @@ For your convenience this package exports both a Vanilla JavaScript function (`i
 4. [Options](#options)
 5. [Examples](#examples)
 6. [Feature List](#feature-list)
-7. [Why offer VanillaJS and Hook options?](#why-offer-vanillajs-and-hook-options?)
+7. [Why offer VanillaJS and Hook options?](#why-offer-vanillajs-and-hook-options)
 
 ## Installation
 
