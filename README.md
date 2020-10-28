@@ -157,7 +157,7 @@ const MyComponent = () => {
   const dates = useIntlDates({
     locale: "da-DK"
     // Set the locale to return in Danish
-    });
+  });
   // Retrieve and destructure the 'dates' object from the useIntlDates hook
 
   return(
@@ -176,7 +176,24 @@ const MyComponent = () => {
 #### Date Ranges
 
 Say you need the date for the first and last day of the week (Sunday and Saturday) to request a range of data from an API for the _current_ week. <br /> <br />
-The following would make the request with the date of Sunday in the current week as the weekStartDate and the date for Saturday as the weekEndDate in the format 'YYYY-MM-DD' <br />
+The following would make the request with the date of Sunday in the current week coming from `dates.weekStartDate` and the date for Saturday from `dates.weekEndDate` in the format 'YYYY-MM-DD' <br />
+
+###### Using `intlDates` function
+
+```
+import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+
+const dates = intlDates();
+  // Retrieve and destructure the 'dates' object from the intlDates function
+
+fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${dates.weekEndDate}`)
+
+
+  // Use the returned data
+
+```
+
+###### Using `useIntlDates` custom hook
 
 ```
     import React, { useEffect } from 'react';
@@ -184,7 +201,7 @@ The following would make the request with the date of Sunday in the current week
 
     const MyComponent = () => {
       const dates = useIntlDates();
-      // Retrieve and destructure the 'dates' object from the useIntlDates hook
+        // Retrieve and destructure the 'dates' object from the useIntlDates hook
 
       useEffect(() => {
         fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${dates.weekEndDate}`)
