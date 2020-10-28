@@ -12,7 +12,7 @@ For your convenience this package exports both a Vanilla JavaScript function (`i
 4. [Options](#options)
 5. [Examples](#examples)
 6. [Feature List](#feature-list)
-7. [Why vanilla and React?](#why-vanilla-and-react)
+7. [Why offer VanillaJS and Hook options?](#why-offer-vanillajs-and-hook-options-?)
 
 ## Installation
 
@@ -65,7 +65,7 @@ Both `intlDates` and `useIntlDates` will accept an object of these options ([see
 
 1. `locale` [_optional_]<br />
    - default: "default" &nbsp; [_defaults to the locale identified by the browser_]<br />
-   - This option allows you to pass a specific locale in the call to the Intl constructor used inside the hook. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) will work.<br />
+   - This option allows you to pass a specific locale in the call to the Intl constructor. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) will work.<br />
    - Examples: "en-US", "da-DK", "de", "es"
 
 ## Examples
@@ -205,7 +205,7 @@ fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${
 
       useEffect(() => {
         fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${dates.weekEndDate}`)
-      }, [])
+      }, [dates])
 
       return(
 
@@ -220,11 +220,11 @@ fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${
 
 This list includes current and planned features. Check the issues page for a more exhaustive look at what features are being added and where they stand in the development process.
 
-- [x] No dependencies, pure JavaScript code running in the hook
-- [x] This package has a VanillaJS options
+- [x] No dependencies, simply JavaScript code
+- [x] This package has a VanillaJS option
 - [x] Options object accepts locale property to specify a locale/language for Intl to use
-- [ ] Options object will allow a 'date' property to get back data from a specified date instead of only from the current day.
+- [ ] Options object will allow a 'date' property to get back data based on a specific date instead of only from the current day.
 
-## Why vanilla and React ?
+## Why offer VanillaJS and Hook options?
 
 The functionality in this package is very simple and could easily be exported as a plain (vanilla) JavaScript function and be used in any project, including React. However, having the logic wired up as a custom React Hook makes it conform more to React principles and best practices as it uses the `useState` and `useEffect` Hooks internally, allowing the data to re-run only when needed (example: if you are dynamically feeding the options object and that information changes).
