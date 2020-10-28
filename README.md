@@ -2,7 +2,7 @@
 
 This package provides a quick and easy way to work with dates by returning an object containing commonly used, helpful date related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). <br />
 
-Currently the package exports a custom React hook that returns an object with helpful date related data.
+For your convenience this package exports both a Vanilla JavaScript function (`intlDates`) and a custom React Hook (`useIntlDates`). Both return the same object (`dates`) containing helpful date related data.
 
 ### Sections:
 
@@ -12,6 +12,7 @@ Currently the package exports a custom React hook that returns an object with he
 4. [Options](#options)
 5. [Examples](#examples)
 6. [Feature List](#feature-list)
+7. [Why vanilla and React?](#why-vanilla-and-react)
 
 ## Installation
 
@@ -21,8 +22,8 @@ Currently the package exports a custom React hook that returns an object with he
 
 ## Date Information
 
-The `useintldates` hook returns an object named `dates` with various date related information allowing you to simply grab it and arrange it as you need. ([see example further down](#examples))<br /> <br />
-The `dates` object returned by the `useintldates` hook contains the following key/value pairs:
+Both the `useIntlDates` hook and `intlDates` function return an object named `dates` with various date related information allowing you to simply grab it and arrange it as you need. ([see example further down](#examples))<br /> <br />
+The `dates` object returned contains the following key/value pairs:
 
 - `dateDMY`: <br /> &nbsp; String containing the current date in the following format: "DD-MM-YYYY"
 
@@ -153,5 +154,10 @@ The following would make the request with the date of Sunday in the current week
 This list includes current and planned features. Check the issues page for a more exhaustive look at what features are being added and where they stand in the development process.
 
 - [x] No dependencies, pure JavaScript code running in the hook
+- [x] This package has a VanillaJS options
 - [x] Options object accepts locale property to specify a locale/language for Intl to use
 - [ ] Options object will allow a 'date' property to get back data from a specified date instead of only from the current day.
+
+## Why vanilla and React ?
+
+The functionality in this package is very simple and could easily be exported as a plain (vanilla) JavaScript function and be used in any project, including React. However, having the logic wired up as a custom React Hook makes it conform more to React principles and best practices as it uses the `useState` and `useEffect` Hooks internally, allowing the data to re-run only when needed (example: if you are dynamically feeding the options object and that information changes).
