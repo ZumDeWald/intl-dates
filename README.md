@@ -81,16 +81,16 @@ Get date related info and format it as you need. The date information is based o
 ```
 import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
 
-  const dates = intlDates();
-  // Retrieve and destructure the 'dates' object from the intlDates function
+const dates = intlDates();
+// Retrieve and destructure the 'dates' object from the intlDates function
 
-  ...
+...
 
-    <div>
-    'Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}'
-    </div>
+  <div>
+  'Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}'
+  </div>
 
-  ...
+...
 
 // Would result in "Today is Saturday Oct 24, 2020"
 
@@ -123,6 +123,32 @@ const MyComponent = () => {
 Passing in a specific locale through the options object will return the data in a specific language. Consider the following if you wanted to be sure the day of the week and month returned in Danish.
 
 > Note: the default locale is set to 'default', which should allow the browser to choose which locale is used.
+
+###### Using `intlDates` function
+
+```
+import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+
+
+const dates = intlDates({
+  locale: "da-DK"
+  // Set the locale to return in Danish
+});
+// Retrieve and destructure the 'dates' object from the intlDates function
+
+...
+
+  <div>
+  'I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}'
+  </div>
+
+...
+
+// Would result in "I dag er lørdag den 24. okt 2020"
+
+```
+
+###### Using `useIntlDates` custom hook
 
 ```
 import useIntlDates from 'useintldates'; // Bring the hook into your component
