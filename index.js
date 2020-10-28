@@ -28,6 +28,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
   const [monthLong, setMonthLong] = useState();
   const [monthShort, setMonthShort] = useState();
   const [year, setYear] = useState();
+  const [dates, setDates] = useState({});
 
   const findStartOfWeek = (intlValues) => {
     const weekday = intlValues[0].value;
@@ -140,7 +141,24 @@ export default function useIntlDates({ locale = "default" } = {}) {
     setWeekdayShort(formatted[2].value);
   }, [intlMonthWeekdayShortOptions, locale]);
 
-  let dates = {
+  // Set all in state
+  useEffect(() => {
+    setDates({
+      weekStartDate,
+      weekEndDate,
+      dateYMD,
+      dateDMY,
+      dateMDY,
+      weekdayLong,
+      weekdayShort,
+      dayOfMonth,
+      monthNumeric,
+      monthLong,
+      monthShort,
+      year,
+    });
+  }, [
+    setDates,
     weekStartDate,
     weekEndDate,
     dateYMD,
@@ -153,7 +171,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
     monthLong,
     monthShort,
     year,
-  };
+  ]);
 
   return dates;
 }
