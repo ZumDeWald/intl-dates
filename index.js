@@ -83,10 +83,11 @@ export default function useIntlDates({ locale = "default" } = {}) {
       }-${findEndOfWeek(startValues)}`;
 
       setDates((dates) => {
-        return { ...dates, weekStartDate: sundayDate };
-      });
-      setDates((dates) => {
-        return { ...dates, weekEndDate: saturdayDate };
+        return {
+          ...dates,
+          weekStartDate: sundayDate,
+          weekEndDate: saturdayDate,
+        };
       });
     }
   }, [startValues]);
@@ -101,22 +102,15 @@ export default function useIntlDates({ locale = "default" } = {}) {
       let dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
 
       setDates((dates) => {
-        return { ...dates, dateYMD };
-      });
-      setDates((dates) => {
-        return { ...dates, dateDMY };
-      });
-      setDates((dates) => {
-        return { ...dates, dateMDY };
-      });
-      setDates((dates) => {
-        return { ...dates, monthNumeric: startValues[2].value };
-      });
-      setDates((dates) => {
-        return { ...dates, dayOfMonth: startValues[4].value };
-      });
-      setDates((dates) => {
-        return { ...dates, year: startValues[6].value };
+        return {
+          ...dates,
+          dateYMD,
+          dateDMY,
+          dateMDY,
+          monthNumeric: startValues[2].value,
+          dayOfMonth: startValues[4].value,
+          year: startValues[6].value,
+        };
       });
     }
   }, [startValues]);
@@ -130,10 +124,11 @@ export default function useIntlDates({ locale = "default" } = {}) {
     const formatted = formatter.formatToParts(new Date());
 
     setDates((dates) => {
-      return { ...dates, monthLong: formatted[0].value };
-    });
-    setDates((dates) => {
-      return { ...dates, weekdayLong: formatted[2].value };
+      return {
+        ...dates,
+        monthLong: formatted[0].value,
+        weekdayLong: formatted[2].value,
+      };
     });
   }, [intlMonthWeekdayLongOptions, locale]);
 
@@ -146,10 +141,11 @@ export default function useIntlDates({ locale = "default" } = {}) {
     const formatted = formatter.formatToParts(new Date());
 
     setDates((dates) => {
-      return { ...dates, monthShort: formatted[0].value };
-    });
-    setDates((dates) => {
-      return { ...dates, weekdayShort: formatted[2].value };
+      return {
+        ...dates,
+        monthShort: formatted[0].value,
+        weekdayShort: formatted[2].value,
+      };
     });
   }, [intlMonthWeekdayShortOptions, locale]);
 
