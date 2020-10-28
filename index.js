@@ -16,18 +16,6 @@ export default function useIntlDates({ locale = "default" } = {}) {
     weekday: "short",
   });
   const [startValues, setStartValues] = useState();
-  const [weekStartDate, setWeekStartDate] = useState();
-  const [weekEndDate, setWeekEndDate] = useState();
-  const [dateYMD, setdateYMD] = useState();
-  const [dateDMY, setdateDMY] = useState();
-  const [dateMDY, setdateMDY] = useState();
-  const [weekdayLong, setWeekdayLong] = useState();
-  const [weekdayShort, setWeekdayShort] = useState();
-  const [dayOfMonth, setDayOfMonth] = useState();
-  const [monthNumeric, setMonthNumeric] = useState();
-  const [monthLong, setMonthLong] = useState();
-  const [monthShort, setMonthShort] = useState();
-  const [year, setYear] = useState();
   const [dates, setDates] = useState({});
 
   const findStartOfWeek = (intlValues) => {
@@ -94,8 +82,12 @@ export default function useIntlDates({ locale = "default" } = {}) {
         startValues[2].value
       }-${findEndOfWeek(startValues)}`;
 
-      setWeekStartDate(sundayDate);
-      setWeekEndDate(saturdayDate);
+      setDates((dates) => {
+        return { ...dates, weekStartDate: sundayDate };
+      });
+      setDates((dates) => {
+        return { ...dates, weekEndDate: saturdayDate };
+      });
     }
   }, [startValues]);
 
@@ -108,12 +100,24 @@ export default function useIntlDates({ locale = "default" } = {}) {
 
       let dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
 
-      setdateYMD(dateYMD);
-      setdateDMY(dateDMY);
-      setdateMDY(dateMDY);
-      setMonthNumeric(startValues[2].value);
-      setDayOfMonth(startValues[4].value);
-      setYear(startValues[6].value);
+      setDates((dates) => {
+        return { ...dates, dateYMD };
+      });
+      setDates((dates) => {
+        return { ...dates, dateDMY };
+      });
+      setDates((dates) => {
+        return { ...dates, dateMDY };
+      });
+      setDates((dates) => {
+        return { ...dates, monthNumeric: startValues[2].value };
+      });
+      setDates((dates) => {
+        return { ...dates, dayOfMonth: startValues[4].value };
+      });
+      setDates((dates) => {
+        return { ...dates, year: startValues[6].value };
+      });
     }
   }, [startValues]);
 
@@ -125,8 +129,12 @@ export default function useIntlDates({ locale = "default" } = {}) {
     );
     const formatted = formatter.formatToParts(new Date());
 
-    setMonthLong(formatted[0].value);
-    setWeekdayLong(formatted[2].value);
+    setDates((dates) => {
+      return { ...dates, monthLong: formatted[0].value };
+    });
+    setDates((dates) => {
+      return { ...dates, weekdayLong: formatted[2].value };
+    });
   }, [intlMonthWeekdayLongOptions, locale]);
 
   // Set monthShort and weekdayShort values
@@ -137,41 +145,13 @@ export default function useIntlDates({ locale = "default" } = {}) {
     );
     const formatted = formatter.formatToParts(new Date());
 
-    setMonthShort(formatted[0].value);
-    setWeekdayShort(formatted[2].value);
-  }, [intlMonthWeekdayShortOptions, locale]);
-
-  // Set all in state
-  useEffect(() => {
-    setDates({
-      weekStartDate,
-      weekEndDate,
-      dateYMD,
-      dateDMY,
-      dateMDY,
-      weekdayLong,
-      weekdayShort,
-      dayOfMonth,
-      monthNumeric,
-      monthLong,
-      monthShort,
-      year,
+    setDates((dates) => {
+      return { ...dates, monthShort: formatted[0].value };
     });
-  }, [
-    setDates,
-    weekStartDate,
-    weekEndDate,
-    dateYMD,
-    dateDMY,
-    dateMDY,
-    weekdayLong,
-    weekdayShort,
-    dayOfMonth,
-    monthNumeric,
-    monthLong,
-    monthShort,
-    year,
-  ]);
+    setDates((dates) => {
+      return { ...dates, weekdayShort: formatted[2].value };
+    });
+  }, [intlMonthWeekdayShortOptions, locale]);
 
   return dates;
 }
