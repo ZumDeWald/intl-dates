@@ -227,4 +227,4 @@ This list includes current and planned features. Check the issues page for a mor
 
 ## Why offer VanillaJS and hook options?
 
-The functionality in this package is very simple and could easily be exported as a plain (vanilla) JavaScript function and be used in any project, including React. However, having the logic wired up as a custom React hook makes it conform more to React principles and best practices as it uses the `useState` and `useEffect` hooks internally, allowing the data to re-run only when needed (example: if you are dynamically feeding the options object and that information changes).
+The functionality in this package is very simple and could easily be exported only as a plain (vanilla) JavaScript function and be used in any project, including React. However, having the logic wired up as a custom React hook makes it conform more to React principles and best practices as it uses the `useState` and `useEffect` hooks internally, allowing the data to re-run only when needed (example: if you are dynamically feeding the options object and that information changes).
