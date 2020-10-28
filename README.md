@@ -22,7 +22,7 @@ For your convenience this package exports both a Vanilla JavaScript function (`i
 
 ## Date Information
 
-Both the `useIntlDates` hook and `intlDates` function return an object named `dates` with various date related information allowing you to simply grab it and arrange it as you need. ([see example further down](#examples))<br /> <br />
+Both the `intlDates` function and `useIntlDates` Hook return an object named `dates` with various date related information allowing you to simply grab it and arrange it as you need. ([see example further down](#examples))<br /> <br />
 The `dates` object returned contains the following key/value pairs:
 
 - `dateDMY`: <br /> &nbsp; String containing the current date in the following format: "DD-MM-YYYY"
@@ -53,15 +53,15 @@ The `dates` object returned contains the following key/value pairs:
 
 Great news! This code uses the power of the [JavaScript Intl object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) to derive date related data. _No outside libraries or code_ is needed by this package, so no alerts that a dependency of a dependency has a security issue!<br />
 
-### There are only 2 requirements for using this hook:
+### There are only 2 things to be aware of if using this package:
 
-1.  **React**: The hook will only run in a React app v16.8.0 and up (React with support for hooks) and must be called in a functional component (not class based) in accordance with the [React docs](https://reactjs.org/docs/hooks-intro.html).
+1.  The `useIntlDates` custom hook will only run in a React app v16.8.0 and up (React with support for hooks) and must be called in a functional component (not class based) in accordance with the [React docs](https://reactjs.org/docs/hooks-intro.html).
 
-2.  The browser must support **Intl.DateTimeFormat.formatToParts**. Check [caniuse.com](https://caniuse.com/?search=Intl%3A%20DateTimeFormat%3A%20formatToParts) to make sure your target browsers are supported (_92.77% Global support at time of writing_)
+2.  For either `intlDates` or `useIntlDates` to work the browser must support [**Intl.DateTimeFormat.formatToParts**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts). Check [caniuse.com](https://caniuse.com/?search=Intl%3A%20DateTimeFormat%3A%20formatToParts) to make sure your target browsers are supported (_92.77% Global support at time of writing_)
 
 ## Options
 
-This hook will accept an object of these options ([see usage below](#specify-locale)):
+Both `intlDates` and `useIntlDates` will accept an object of these options ([see usage below](#specify-locale)):
 
 1. `locale` [_optional_]<br />
    - default: "default" &nbsp; [_defaults to the locale identified by the browser_]<br />
@@ -70,16 +70,40 @@ This hook will accept an object of these options ([see usage below](#specify-loc
 
 ## Examples
 
+The only difference in usage between `intlDates` and `useIntlDates` is the context in which they are brought into your project. The examples below offer a look into how to import/use this package in both environments for clarity.
+
 #### Common Use
 
 Get date related info and format it as you need. The date information is based on the current day. Consider the following if it were _Saturday October 24, 2020_.<br />
 
+###### Using `intlDates` function
+
 ```
-import useintldates from 'useintldates'; // Bring the hook into your component
+import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+
+  const dates = intlDates();
+  // Retrieve and destructure the 'dates' object from the intlDates function
+
+  ...
+
+    <div>
+    'Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}'
+    </div>
+
+  ...
+
+// Would result in "Today is Saturday Oct 24, 2020"
+
+```
+
+###### Using `useIntlDates` custom hook
+
+```
+import useIntlDates from 'useintldates'; // Bring the hook into your component
 
 const MyComponent = () => {
-  const dates = useintldates();
-  // Retrieve and destructure the 'dates' object from the useintldates hook
+  const dates = useIntlDates();
+  // Retrieve and destructure the 'dates' object from the useIntlDates hook
 
   return(
     <div>
@@ -101,14 +125,14 @@ Passing in a specific locale through the options object will return the data in 
 > Note: the default locale is set to 'default', which should allow the browser to choose which locale is used.
 
 ```
-import useintldates from 'useintldates'; // Bring the hook into your component
+import useIntlDates from 'useintldates'; // Bring the hook into your component
 
 const MyComponent = () => {
-  const dates = useintldates({
+  const dates = useIntlDates({
     locale: "da-DK"
     // Set the locale to return in Danish
     });
-  // Retrieve and destructure the 'dates' object from the useintldates hook
+  // Retrieve and destructure the 'dates' object from the useIntlDates hook
 
   return(
     <div>
@@ -130,11 +154,11 @@ The following would make the request with the date of Sunday in the current week
 
 ```
     import React, { useEffect } from 'react';
-    import useintldates from 'useintldates'; // Bring the hook into your component
+    import useIntlDates from 'useintldates'; // Bring the hook into your component
 
     const MyComponent = () => {
-      const dates = useintldates();
-      // Retrieve and destructure the 'dates' object from the useintldates hook
+      const dates = useIntlDates();
+      // Retrieve and destructure the 'dates' object from the useIntlDates hook
 
       useEffect(() => {
         fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${dates.weekEndDate}`)
