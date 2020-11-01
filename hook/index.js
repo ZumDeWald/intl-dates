@@ -69,7 +69,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
     }
   };
 
-  // Set startValues with Intl
+  // Set startValues with Intl -- locale must stay English here so switch above can match
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
     setStartValues(formatter.formatToParts(new Date()));
@@ -118,7 +118,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
     }
   }, [startValues]);
 
-  // Set monthLong weekdayLong values
+  // Set monthLong weekdayLong values to export
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat(
       locale,
@@ -135,7 +135,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
     });
   }, [intlMonthWeekdayLongOptions, locale]);
 
-  // Set monthShort and weekdayShort values
+  // Set monthShort and weekdayShort values to export
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat(
       locale,
