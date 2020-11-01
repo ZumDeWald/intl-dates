@@ -1,8 +1,8 @@
 # useIntlDates
 
-This package provides a quick and easy way to work with dates by returning an object containing commonly used, helpful date related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). <br />
+This package provides a quick and easy way to work with dates by returning an object containing commonly used, helpful date-related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). <br />
 
-For your convenience this package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`). Both return the same object (`dates`) containing helpful date related data.
+For your convenience, this package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`). Both return the same object (`dates`) containing helpful date-related data.
 
 ### Sections:
 
@@ -22,7 +22,7 @@ For your convenience this package exports both a Vanilla JavaScript function (`i
 
 ## Date Information
 
-Both the `intlDates` function and `useIntlDates` hook return an object named `dates` with various date related information allowing you to simply grab it and arrange it as you need. ([see example further down](#examples))<br /> <br />
+Both the `intlDates` function and `useIntlDates` hook return an object named `dates` with various date-related information allowing you to simply grab it and arrange it as you need. ([see example further down](#examples))<br /> <br />
 The `dates` object returned contains the following key/value pairs:
 
 - `dateDMY`: <br /> &nbsp; String containing the current date in the following format: "DD-MM-YYYY"
@@ -51,11 +51,11 @@ The `dates` object returned contains the following key/value pairs:
 
 ## Dependencies
 
-Great news! This code uses the power of the [JavaScript Intl object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) to derive date related data. _No outside libraries or code_ is needed by this package, so no alerts that a dependency of a dependency has a security issue!<br />
+Great news! This code uses the power of the [JavaScript Intl object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) to derive date-related data. _No outside libraries or code_ is needed by this package, so no alerts that a dependency of a dependency has a security issue!<br />
 
 ### There are only 2 things to be aware of if using this package:
 
-1.  The `useIntlDates` custom hook will only run in a React app v16.8.0 and up (React with support for hooks) and must be called in a functional component (not class based) in accordance with the [React docs](https://reactjs.org/docs/hooks-intro.html).
+1.  The `useIntlDates` custom hook will only run in a React app v16.8.0 and up (React with support for hooks) and must be called in a functional component (not class-based) in accordance with the [React docs](https://reactjs.org/docs/hooks-intro.html).
 
 2.  For either `intlDates` or `useIntlDates` to work the browser must support [**Intl.DateTimeFormat.formatToParts**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts). Check [caniuse.com](https://caniuse.com/?search=Intl%3A%20DateTimeFormat%3A%20formatToParts) to make sure your target browsers are supported (_92.77% Global support at time of writing_)
 
@@ -74,7 +74,7 @@ The only difference in usage between `intlDates` and `useIntlDates` is the conte
 
 #### Common Use
 
-Get date related info and format it as you need. The date information is based on the current day. Consider the following if it were _Saturday October 24, 2020_.<br />
+Get date-related info and format it as you need. The date information is based on the current day. Consider the following if it were _Saturday, October 24, 2020_.<br />
 
 ###### Using `intlDates` function
 
@@ -87,12 +87,12 @@ const dates = intlDates();
 ...
 
   <div>
-  'Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}'
+  `Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}`
   </div>
 
 ...
 
-// Would result in "Today is Saturday Oct 24, 2020"
+// Would result in "Today is Saturday, Oct 24, 2020"
 
 ```
 
@@ -107,12 +107,12 @@ const MyComponent = () => {
 
   return(
     <div>
-    'Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}'
+    `Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}`
     </div>
   )
 }
 
-// Would return "Today is Saturday Oct 24, 2020"
+// Would return "Today is Saturday, Oct 24, 2020"
 
 ```
 
@@ -139,7 +139,7 @@ const dates = intlDates({
 ...
 
   <div>
-  'I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}'
+  `I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}`
   </div>
 
 ...
@@ -162,7 +162,7 @@ const MyComponent = () => {
 
   return(
     <div>
-    'I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}'
+    `I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}`
     </div>
   )
 }
