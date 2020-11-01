@@ -87,7 +87,7 @@ const dates = intlDates();
 ...
 
   <div>
-  'Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}'
+  `Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}`
   </div>
 
 ...
@@ -107,7 +107,7 @@ const MyComponent = () => {
 
   return(
     <div>
-    'Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}'
+    `Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}`
     </div>
   )
 }
@@ -139,7 +139,7 @@ const dates = intlDates({
 ...
 
   <div>
-  'I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}'
+  `I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}`
   </div>
 
 ...
@@ -162,7 +162,7 @@ const MyComponent = () => {
 
   return(
     <div>
-    'I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}'
+    `I dag er ${dates.weekdayLong} den ${dates.dayOfMonth}. ${dates.monthShort} ${dates.year}`
     </div>
   )
 }
