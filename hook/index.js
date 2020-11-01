@@ -75,7 +75,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
     setStartValues(formatter.formatToParts(new Date()));
   }, [intlBaseOptions]);
 
-  // Derive this week start and end dates and set in state
+  // Derive this week start and end dates to export
   useEffect(() => {
     if (startValues) {
       let sundayDate = `${startValues[6].value}-${
