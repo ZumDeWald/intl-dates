@@ -7,7 +7,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
     month: "numeric",
     year: "numeric",
   });
-
+  
   const [intlMonthWeekdayLongOptions] = useState({
     month: "long",
     weekday: "long",
@@ -94,7 +94,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
       });
     }
   }, [startValues]);
-
+  
   // Set base values to export
   useEffect(() => {
     if (startValues) {
