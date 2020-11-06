@@ -1,7 +1,7 @@
 {
-  "name": "useintldates",
+  "name": "intl-dates",
   "version": "1.1.0",
-  "description": "Easily work with dates using the JavaScript Intl methods",
+  "description": "The easiest way to work with dates in JavaScript",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,16 +12,20 @@
   },
   "keywords": [
     "javascript",
+    "vanilla",
     "react",
+    "custom hook",
     "hook",
     "intl",
+    "intl date",
     "date",
-    "dates"
+    "dates",
+    "datetime"
   ],
   "author": "ZumDeWald",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ZumDeWald/useIntlDates/issues"
+    "url": "https://github.com/ZumDeWald/intl-dates/issues"
   },
-  "homepage": "https://github.com/ZumDeWald/useIntlDates#readme"
+  "homepage": "https://github.com/ZumDeWald/intl-dates#readme"
 }

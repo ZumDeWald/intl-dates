@@ -1,8 +1,12 @@
-# useIntlDates
+# intl-dates
 
-This package provides a quick and easy way to work with dates by returning an object containing commonly used, helpful date-related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). <br />
+Easily get useful date-related information using JavaScript Intl.
 
-For your convenience, this package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`). Both return the same object (`dates`) containing helpful date-related data.
+### Description
+
+This package provides a quick and easy way to work with dates by returning an object containing commonly used, date-related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). <br />
+
+For your convenience, this package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`), both of which return an object (`dates`) containing the same key/value pairs.
 
 ### Sections:
 
@@ -16,7 +20,7 @@ For your convenience, this package exports both a Vanilla JavaScript function (`
 
 ## Installation
 
-- This npm package can be installed by running `npm install useintldates --save-dev`
+- This npm package can be installed by running `npm install intl-dates --save-dev`
 - See [Date Information](#date-information) for more info on what data is returned
 - See [Examples](#examples) further down to see how the package would be brought into your project
 
@@ -51,7 +55,7 @@ The `dates` object returned contains the following key/value pairs:
 
 ## Dependencies
 
-Great news! This code uses the power of the [JavaScript Intl object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) to derive date-related data. _No outside libraries or code_ is needed by this package, so no alerts that a dependency of a dependency has a security issue!<br />
+Great news! This code uses the power of the [JavaScript Intl object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat). _No outside libraries or code_ is needed by this package, so no alerts that a dependency of a dependency has a security issue!<br />
 
 ### There are only 2 things to be aware of if using this package:
 
@@ -64,7 +68,8 @@ Great news! This code uses the power of the [JavaScript Intl object](https://dev
 Both `intlDates` and `useIntlDates` will accept an object of these options ([see usage below](#specify-locale)):
 
 1. `locale` [_optional_]<br />
-   - default: "default" &nbsp; [_defaults to the locale identified by the browser_]<br />
+   - default: "default" &nbsp; [_locale identified by the browser_]<br />
+   - Change the locale to return data in a different language <br />
    - This option allows you to pass a specific locale in the call to the Intl constructor. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) will work.<br />
    - Examples: "en-US", "da-DK", "de", "es"
 
@@ -79,7 +84,7 @@ Get date-related info and format it as you need. The date information is based o
 ###### Using `intlDates` function
 
 ```
-import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
 const dates = intlDates();
 // Retrieve and destructure the 'dates' object from the intlDates function
@@ -99,7 +104,7 @@ const dates = intlDates();
 ###### Using `useIntlDates` custom hook
 
 ```
-import useIntlDates from 'useintldates'; // Bring the hook into your component
+import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
 const MyComponent = () => {
   const dates = useIntlDates();
@@ -122,12 +127,12 @@ const MyComponent = () => {
 
 Passing in a specific locale through the options object will return the data in a specific language. Consider the following if you wanted to be sure the day of the week and month returned in Danish.
 
-> Note: the default locale is set to 'default', which should allow the browser to choose which locale is used.
+> Note: the default locale is set to 'default', which allows the browser to choose which locale is used.
 
 ###### Using `intlDates` function
 
 ```
-import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
 
 const dates = intlDates({
@@ -151,7 +156,7 @@ const dates = intlDates({
 ###### Using `useIntlDates` custom hook
 
 ```
-import useIntlDates from 'useintldates'; // Bring the hook into your component
+import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
 const MyComponent = () => {
   const dates = useIntlDates({
@@ -181,7 +186,7 @@ The following would make the request with the date of Sunday in the current week
 ###### Using `intlDates` function
 
 ```
-import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
 const dates = intlDates();
   // Retrieve and destructure the 'dates' object from the intlDates function
@@ -197,7 +202,7 @@ fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${
 
 ```
     import React, { useEffect } from 'react';
-    import useIntlDates from 'useintldates'; // Bring the hook into your component
+    import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
     const MyComponent = () => {
       const dates = useIntlDates();
