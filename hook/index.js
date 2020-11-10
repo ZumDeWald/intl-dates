@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-export default function useIntlDates({ locale = "default" } = {}) {
+export default function useIntlDates({ locale = "default", date = null } = {}) {
   const [intlBaseOptions] = useState({
     weekday: "long",
     day: "numeric",
     month: "numeric",
     year: "numeric",
   });
-  
+
   const [intlMonthWeekdayLongOptions] = useState({
     month: "long",
     weekday: "long",
@@ -72,7 +72,9 @@ export default function useIntlDates({ locale = "default" } = {}) {
   // Set startValues with Intl -- locale must stay English here so switch above can match
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
-    setStartValues(formatter.formatToParts(new Date()));
+    setStartValues(
+      formatter.formatToParts(!!date ? new Date(date) : new Date())
+    );
   }, [intlBaseOptions]);
 
   // Derive this week start and end dates to export
@@ -94,7 +96,7 @@ export default function useIntlDates({ locale = "default" } = {}) {
       });
     }
   }, [startValues]);
-  
+
   // Set base values to export
   useEffect(() => {
     if (startValues) {
@@ -124,7 +126,9 @@ export default function useIntlDates({ locale = "default" } = {}) {
       locale,
       intlMonthWeekdayLongOptions
     );
-    const formatted = formatter.formatToParts(new Date());
+    const formatted = formatter.formatToParts(
+      !!date ? new Date(date) : new Date()
+    );
 
     setDates((prevDates) => {
       return {
@@ -141,7 +145,9 @@ export default function useIntlDates({ locale = "default" } = {}) {
       locale,
       intlMonthWeekdayShortOptions
     );
-    const formatted = formatter.formatToParts(new Date());
+    const formatted = formatter.formatToParts(
+      !!date ? new Date(date) : new Date()
+    );
 
     setDates((prevDates) => {
       return {
