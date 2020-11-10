@@ -64,9 +64,17 @@ Great news! This code uses the power of the [JavaScript Intl object](https://dev
 Both `intlDates` and `useIntlDates` will accept an object of these options ([see usage below](#specify-locale)):
 
 1. `locale` [_optional_]<br />
+
    - default: "default" &nbsp; [_defaults to the locale identified by the browser_]<br />
-   - This option allows you to pass a specific locale in the call to the Intl constructor. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) will work.<br />
+   - This option allows you to get date information back in a specific language. <br />
+   - Any valid locale acceptable to [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) will work.<br />
    - Examples: "en-US", "da-DK", "de", "es"
+
+2. `date` [_optional_] <br />
+   - default: today's date <br />
+   - This option allows you to get back date information based on a specific date. <br />
+   - Any value accepted by the [JavaScript `Date()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date#Parameters) constructor will work. <br />
+   - Examples: "2020-10-24T14:48:00", "2020-10-24", "10/24/2020", "October 24, 2020"
 
 ## Examples
 
@@ -74,7 +82,7 @@ The only difference in usage between `intlDates` and `useIntlDates` is the conte
 
 #### Common Use
 
-Get date-related info and format it as you need. The date information is based on the current day. Consider the following if it were _Saturday, October 24, 2020_.<br />
+Get date-related info and format it as you need. Consider the following if it were _Saturday, October 24, 2020_.<br />
 
 ###### Using `intlDates` function
 
@@ -113,6 +121,56 @@ const MyComponent = () => {
 }
 
 // Would return "Today is Saturday, Oct 24, 2020"
+
+```
+
+<br />
+
+#### Specify Date
+
+Return date information based on a specific date. Consider if you wanted to get information based on _Monday, February 15, 1999_.<br />
+
+###### Using `intlDates` function
+
+```
+import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+
+const dates = intlDates({
+  date: "2/15/1999", // Specify a date in options object
+  });
+// Retrieve and destructure the 'dates' object from the intlDates function
+
+...
+
+  <div>
+  `Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}`
+  </div>
+
+...
+
+// Would result in "Today is Monday, Feb 15, 1999"
+
+```
+
+###### Using `useIntlDates` custom hook
+
+```
+import useIntlDates from 'useintldates'; // Bring the hook into your component
+
+const MyComponent = () => {
+  const dates = useIntlDates({
+    date: "2/15/1999", // Specify a date in options object
+    });
+  // Retrieve and destructure the 'dates' object from the useIntlDates hook
+
+  return(
+    <div>
+    `Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}`
+    </div>
+  )
+}
+
+// Would return "Today is Monday, Feb 15, 1999"
 
 ```
 
