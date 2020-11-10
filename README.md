@@ -4,9 +4,9 @@ Easily get useful date-related information using JavaScript Intl.
 
 ### Description
 
-This package provides a quick and easy way to work with dates by returning an object containing commonly used, date-related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). <br />
+This package provides a quick and easy way to work with dates by returning an object containing commonly used, date-related data. It can also be passed an [options object](#options) to further customize the way the date information comes back. <br />
 
-For your convenience, this package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`), both of which return an object (`dates`) containing the same key/value pairs.
+This package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`), each of which return an object (`dates`) containing the same key/value pairs.
 
 ### Sections:
 
@@ -67,11 +67,21 @@ Great news! This code uses the power of the [JavaScript Intl object](https://dev
 
 Both `intlDates` and `useIntlDates` will accept an object of these options ([see usage below](#specify-locale)):
 
-1. `locale` [_optional_]<br />
-   - default: "default" &nbsp; [_locale identified by the browser_]<br />
-   - Change the locale to return data in a different language <br />
-   - This option allows you to pass a specific locale in the call to the Intl constructor. Any valid [locale acceptable to Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) will work.<br />
+1. `locale` [_optional_]
+
+   - default: "default" &nbsp; [_defaults to the locale identified by the browser_]<br />
+   - This option allows you to get date information back in a specific language. <br />
+   - Any valid locale acceptable to [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) will work.<br />
    - Examples: "en-US", "da-DK", "de", "es"
+
+<br />
+
+2. `date` [_optional_]
+
+   - default: today's date <br />
+   - This option allows you to get back date information based on a specific date. <br />
+   - Any value accepted by the JavaScript [Date()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date#Parameters) constructor will work. <br />
+   - Examples: "2020-10-24T14:48:00", "2020-10-24", "10/24/2020", "October 24, 2020"
 
 ## Examples
 
@@ -79,15 +89,15 @@ The only difference in usage between `intlDates` and `useIntlDates` is the conte
 
 #### Common Use
 
-Get date-related info and format it as you need. The date information is based on the current day. Consider the following if it were _Saturday, October 24, 2020_.<br />
+Get date-related info and format it as you need. Consider the following if today was _Saturday, October 24, 2020_.<br />
 
 ###### Using `intlDates` function
 
 ```
 import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
-const dates = intlDates();
 // Retrieve and destructure the 'dates' object from the intlDates function
+const dates = intlDates();
 
 ...
 
@@ -107,8 +117,9 @@ const dates = intlDates();
 import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
 const MyComponent = () => {
-  const dates = useIntlDates();
+
   // Retrieve and destructure the 'dates' object from the useIntlDates hook
+  const dates = useIntlDates();
 
   return(
     <div>
@@ -118,6 +129,57 @@ const MyComponent = () => {
 }
 
 // Would return "Today is Saturday, Oct 24, 2020"
+
+```
+
+<br />
+
+#### Specify Date
+
+Return date information based on a specific date. Consider if you wanted to get information based on _Monday, February 15, 1999_.<br />
+
+###### Using `intlDates` function
+
+```
+import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
+
+// Retrieve and destructure the 'dates' object from the intlDates function
+const dates = intlDates({
+  date: "2/15/1999"  // Specify a date in options object
+  });
+
+...
+
+  <div>
+  `Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}`
+  </div>
+
+...
+
+// Would result in "Today is Monday, Feb 15, 1999"
+
+```
+
+###### Using `useIntlDates` custom hook
+
+```
+import useIntlDates from 'intl-dates'; // Bring the hook into your component
+
+const MyComponent = () => {
+
+  // Retrieve and destructure the 'dates' object from the useIntlDates hook
+  const dates = useIntlDates({
+    date: "2/15/1999"  // Specify a date in options object
+    });
+
+  return(
+    <div>
+    `Today is ${dates.weekdayLong} ${dates.monthShort} ${dates.dayOfMonth}, ${dates.year}`
+    </div>
+  )
+}
+
+// Would return "Today is Monday, Feb 15, 1999"
 
 ```
 
@@ -134,12 +196,10 @@ Passing in a specific locale through the options object will return the data in 
 ```
 import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
-
-const dates = intlDates({
-  locale: "da-DK"
-  // Set the locale to return in Danish
-});
 // Retrieve and destructure the 'dates' object from the intlDates function
+const dates = intlDates({
+  locale: "da-DK"  // Set the locale to return in Danish
+});
 
 ...
 
@@ -159,11 +219,11 @@ const dates = intlDates({
 import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
 const MyComponent = () => {
-  const dates = useIntlDates({
-    locale: "da-DK"
-    // Set the locale to return in Danish
-  });
+
   // Retrieve and destructure the 'dates' object from the useIntlDates hook
+  const dates = useIntlDates({
+    locale: "da-DK"  // Set the locale to return in Danish
+  });
 
   return(
     <div>
@@ -180,16 +240,18 @@ const MyComponent = () => {
 
 #### Date Ranges
 
-Say you need the date for the first and last day of the week (Sunday and Saturday) to request a range of data from an API for the _current_ week. <br /> <br />
-The following would make the request with the date of Sunday in the current week coming from `dates.weekStartDate` and the date for Saturday from `dates.weekEndDate` in the format 'YYYY-MM-DD' <br />
+Say you need the date for the first and last day of the week (Sunday and Saturday) to request a range of data from an API for the week. <br /> <br />
+The following would make the request with the date for Sunday coming from `dates.weekStartDate` and the date for Saturday from `dates.weekEndDate` in the format 'YYYY-MM-DD': <br />
+
+> Note: Dates are based on the _current_ week if no date is passed as an option, else the dates are based on the week in which the specified date falls.
 
 ###### Using `intlDates` function
 
 ```
 import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
+// Retrieve and destructure the 'dates' object from the intlDates function
 const dates = intlDates();
-  // Retrieve and destructure the 'dates' object from the intlDates function
 
 fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${dates.weekEndDate}`)
 
@@ -205,8 +267,9 @@ fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${
     import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
     const MyComponent = () => {
+
+      // Retrieve and destructure the 'dates' object from the useIntlDates hook
       const dates = useIntlDates();
-        // Retrieve and destructure the 'dates' object from the useIntlDates hook
 
       useEffect(() => {
         fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${dates.weekEndDate}`)
@@ -226,9 +289,9 @@ fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${
 This list includes current and planned features. Check the issues page for a more exhaustive look at what features are being added and where they stand in the development process.
 
 - [x] No dependencies, simply JavaScript code
-- [x] This package has a VanillaJS option
-- [x] Options object accepts locale property to specify a locale/language for Intl to use
-- [ ] Options object will allow a 'date' property to get back data based on a specific date instead of only from the current day.
+- [x] This package offers a VanillaJS and custom React hook option
+- [x] Options object accepts `locale` property to specify a locale/language for Intl to use
+- [x] Options object will allow a `date` property to get back data based on a specific date instead of only from the current day.
 
 ## Why offer VanillaJS and hook options?
 

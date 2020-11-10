@@ -1,4 +1,4 @@
-export default function intlDates({ locale = "default" } = {}) {
+export default function intlDates({ locale = "default", date = null } = {}) {
   // Set options passed to Intl calls
   const intlBaseOptions = {
     weekday: "long",
@@ -67,7 +67,9 @@ export default function intlDates({ locale = "default" } = {}) {
 
   // Set startValues with Intl -- locale needs to stay English here so switch above can match
   const baseFormatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
-  const startValues = baseFormatter.formatToParts(new Date());
+  const startValues = baseFormatter.formatToParts(
+    !!date ? new Date(date) : new Date()
+  );
 
   // Derive this week start and end dates to export
   const weekStartDate = `${startValues[6].value}-${
@@ -96,7 +98,9 @@ export default function intlDates({ locale = "default" } = {}) {
     locale,
     intlMonthWeekdayLongOptions
   );
-  const longFormatted = longFormatter.formatToParts(new Date());
+  const longFormatted = longFormatter.formatToParts(
+    !!date ? new Date(date) : new Date()
+  );
 
   const monthLong = longFormatted[0].value;
   const weekdayLong = longFormatted[2].value;
@@ -106,7 +110,9 @@ export default function intlDates({ locale = "default" } = {}) {
     locale,
     intlMonthWeekdayShortOptions
   );
-  const shortFormatted = shortFormatter.formatToParts(new Date());
+  const shortFormatted = shortFormatter.formatToParts(
+    !!date ? new Date(date) : new Date()
+  );
 
   const monthShort = shortFormatted[0].value;
   const weekdayShort = shortFormatted[2].value;
