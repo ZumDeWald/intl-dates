@@ -4,9 +4,9 @@ Easily get useful date-related information using JavaScript Intl.
 
 ### Description
 
-This package provides a quick and easy way to work with dates by returning an object containing commonly used, helpful date-related data. It can also be passed an [options object](#options) to further customize the way the date information comes back, such as language (locale). <br />
+This package provides a quick and easy way to work with dates by returning an object containing commonly used, date-related data. It can also be passed an [options object](#options) to further customize the way the date information comes back. <br />
 
-For your convenience, this package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`). Both return the same object (`dates`) containing helpful date-related data.
+This package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`), each of which return an object (`dates`) containing the same key/value pairs.
 
 ### Sections:
 
@@ -20,7 +20,7 @@ For your convenience, this package exports both a Vanilla JavaScript function (`
 
 ## Installation
 
-- This npm package can be installed by running `npm install useintldates --save-dev`
+- This npm package can be installed by running `npm install intl-dates --save-dev`
 - See [Date Information](#date-information) for more info on what data is returned
 - See [Examples](#examples) further down to see how the package would be brought into your project
 
@@ -94,7 +94,7 @@ Get date-related info and format it as you need. Consider the following if today
 ###### Using `intlDates` function
 
 ```
-import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
 // Retrieve and destructure the 'dates' object from the intlDates function
 const dates = intlDates();
@@ -114,7 +114,7 @@ const dates = intlDates();
 ###### Using `useIntlDates` custom hook
 
 ```
-import useIntlDates from 'useintldates'; // Bring the hook into your component
+import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
 const MyComponent = () => {
 
@@ -141,7 +141,7 @@ Return date information based on a specific date. Consider if you wanted to get 
 ###### Using `intlDates` function
 
 ```
-import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
 // Retrieve and destructure the 'dates' object from the intlDates function
 const dates = intlDates({
@@ -163,7 +163,7 @@ const dates = intlDates({
 ###### Using `useIntlDates` custom hook
 
 ```
-import useIntlDates from 'useintldates'; // Bring the hook into your component
+import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
 const MyComponent = () => {
 
@@ -194,7 +194,7 @@ Passing in a specific locale through the options object will return the data in 
 ###### Using `intlDates` function
 
 ```
-import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
 // Retrieve and destructure the 'dates' object from the intlDates function
 const dates = intlDates({
@@ -216,7 +216,7 @@ const dates = intlDates({
 ###### Using `useIntlDates` custom hook
 
 ```
-import useIntlDates from 'useintldates'; // Bring the hook into your component
+import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
 const MyComponent = () => {
 
@@ -248,7 +248,7 @@ The following would make the request with the date for Sunday coming from `dates
 ###### Using `intlDates` function
 
 ```
-import { intlDates } from 'useintldates'; // Bring the function into your code as a named export
+import { intlDates } from 'intl-dates'; // Bring the function into your code as a named export
 
 // Retrieve and destructure the 'dates' object from the intlDates function
 const dates = intlDates();
@@ -264,7 +264,7 @@ fetch(`[urlToYourAPI]/getByDateRange?startDate=${dates.weekStartDate}&endDate=${
 
 ```
     import React, { useEffect } from 'react';
-    import useIntlDates from 'useintldates'; // Bring the hook into your component
+    import useIntlDates from 'intl-dates'; // Bring the hook into your component
 
     const MyComponent = () => {
 
