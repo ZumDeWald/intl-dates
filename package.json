@@ -12,16 +12,20 @@
   },
   "keywords": [
     "javascript",
+    "vanilla",
     "react",
+    "custom hook",
     "hook",
     "intl",
+    "intl date",
     "date",
-    "dates"
+    "dates",
+    "datetime"
   ],
   "author": "ZumDeWald",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ZumDeWald/useIntlDates/issues"
+    "url": "https://github.com/ZumDeWald/intl-dates/issues"
   },
-  "homepage": "https://github.com/ZumDeWald/useIntlDates#readme"
+  "homepage": "https://github.com/ZumDeWald/intl-dates#readme"
 }

@@ -55,7 +55,7 @@ The `dates` object returned contains the following key/value pairs:
 
 ## Dependencies
 
-Great news! This code uses the power of the [JavaScript Intl object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) to derive date-related data. _No outside libraries or code_ is needed by this package, so no alerts that a dependency of a dependency has a security issue!<br />
+Great news! This code uses the power of the [JavaScript Intl object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat). _No outside libraries or code_ is needed by this package, so no alerts that a dependency of a dependency has a security issue!<br />
 
 ### There are only 2 things to be aware of if using this package:
 
@@ -189,7 +189,7 @@ const MyComponent = () => {
 
 Passing in a specific locale through the options object will return the data in a specific language. Consider the following if you wanted to be sure the day of the week and month returned in Danish.
 
-> Note: the default locale is set to 'default', which should allow the browser to choose which locale is used.
+> Note: the default locale is set to 'default', which allows the browser to choose which locale is used.
 
 ###### Using `intlDates` function
 
