@@ -81,7 +81,7 @@ Both `intlDates` and `useIntlDates` will accept an object of these options ([see
    - default: today's date <br />
    - This option allows you to get back date information based on a specific date. <br />
    - Any value accepted by the JavaScript [Date()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date#Parameters) constructor will work. <br />
-   - Examples: "2020-10-24T14:48:00", "2020-10-24", "10/24/2020", "October 24, 2020"
+   - Examples: "2020-10-24T14:48:00", "10/24/2020", "October 24, 2020"
 
 ## Examples
 
