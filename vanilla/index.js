@@ -102,14 +102,41 @@ export default function intlDates({ locale = "default", date = null } = {}) {
     !!date ? new Date(date) : new Date()
   );
 
-  // Derive this week start and end dates to export
-  const weekStartDate = `${startValues[6].value}-${
-    startValues[2].value
-  }-${findStartOfWeek(startValues)}`;
+  /* Derive this week start and end dates to export */
+  // Week Start Date
+  let weekStartDate;
+  const beginOfMonthDiff = findStartOfWeek(startValues);
 
-  const weekEndDate = `${startValues[6].value}-${
-    startValues[2].value
-  }-${findEndOfWeek(startValues)}`;
+  if (beginOfMonthDiff <= 0) {
+    let prevMonth = Number(startValues[2].value) - 1;
+    if (prevMonth === 0) {
+      prevMonth = 12;
+    }
+    const daysInPrevMonth = daysInMonth(prevMonth);
+
+    weekStartDate = `${startValues[6].value}-${prevMonth}-${
+      daysInPrevMonth + beginOfMonthDiff
+    }`;
+  } else {
+    weekStartDate = `${startValues[6].value}-${startValues[2].value}-${beginOfMonthDiff}`;
+  }
+
+  // Week End Date
+  let weekEndDate;
+  const endOfMonthDiff =
+    findEndOfWeek(startValues) - daysInMonth(Number(startValues[2].value));
+  if (endOfMonthDiff > 0) {
+    let nextMonth = Number(startValues[2].value) + 1;
+    if (nextMonth === 13) {
+      nextMonth = 1;
+    }
+
+    weekEndDate = `${startValues[6].value}-${nextMonth}-${endOfMonthDiff}`;
+  } else {
+    weekEndDate = `${startValues[6].value}-${
+      startValues[2].value
+    }-${findEndOfWeek(startValues)}`;
+  }
 
   // Set additional values to export
   const dateYMD = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;
