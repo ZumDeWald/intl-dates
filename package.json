@@ -1,5 +1,5 @@
 {
-  "name": "useintldates",
+  "name": "intl-dates",
   "version": "1.2.0",
   "description": "Easily work with dates using the JavaScript Intl methods",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZumDeWald/useIntlDates.git"
+    "url": "git+https://github.com/ZumDeWald/intl-dates.git"
   },
   "keywords": [
     "javascript",
