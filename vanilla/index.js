@@ -65,6 +65,37 @@ export default function intlDates({ locale = "default", date = null } = {}) {
     }
   };
 
+  const daysInMonth = (monthAsNum) => {
+    switch (monthAsNum) {
+      case 1:
+        return 31;
+      case 2:
+        return 28;
+      case 3:
+        return 31;
+      case 4:
+        return 30;
+      case 5:
+        return 31;
+      case 6:
+        return 30;
+      case 7:
+        return 31;
+      case 8:
+        return 31;
+      case 9:
+        return 30;
+      case 10:
+        return 31;
+      case 11:
+        return 30;
+      case 12:
+        return 31;
+      default:
+        return null;
+    }
+  };
+
   // Set startValues with Intl -- locale needs to stay English here so switch above can match
   const baseFormatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
   const startValues = baseFormatter.formatToParts(
