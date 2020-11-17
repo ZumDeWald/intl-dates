@@ -65,20 +65,92 @@ export default function intlDates({ locale = "default", date = null } = {}) {
     }
   };
 
+  const daysInMonth = (monthAsNum) => {
+    switch (monthAsNum) {
+      case 1:
+        return 31;
+      case 2:
+        return 28;
+      case 3:
+        return 31;
+      case 4:
+        return 30;
+      case 5:
+        return 31;
+      case 6:
+        return 30;
+      case 7:
+        return 31;
+      case 8:
+        return 31;
+      case 9:
+        return 30;
+      case 10:
+        return 31;
+      case 11:
+        return 30;
+      case 12:
+        return 31;
+      default:
+        return null;
+    }
+  };
+
   // Set startValues with Intl -- locale needs to stay English here so switch above can match
   const baseFormatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
   const startValues = baseFormatter.formatToParts(
     !!date ? new Date(date) : new Date()
   );
 
-  // Derive this week start and end dates to export
-  const weekStartDate = `${startValues[6].value}-${
-    startValues[2].value
-  }-${findStartOfWeek(startValues)}`;
+  /* Derive this week start and end dates to export */
+  // Week Start Date
+  let weekStartDate;
+  const beginOfMonthDiff = findStartOfWeek(startValues);
 
-  const weekEndDate = `${startValues[6].value}-${
-    startValues[2].value
-  }-${findEndOfWeek(startValues)}`;
+  // Check if start of week is in previous month
+  if (beginOfMonthDiff <= 0) {
+    let prevYear = null;
+    let prevMonth = Number(startValues[2].value) - 1;
+
+    // Make date adjustments if start of week is in previous year
+    if (prevMonth === 0) {
+      prevMonth = 12;
+      prevYear = Number(startValues[6].value) - 1;
+    }
+
+    const daysInPrevMonth = daysInMonth(prevMonth);
+
+    weekStartDate = `${prevYear || startValues[6].value}-${prevMonth}-${
+      daysInPrevMonth + beginOfMonthDiff
+    }`;
+  } else {
+    weekStartDate = `${startValues[6].value}-${startValues[2].value}-${beginOfMonthDiff}`;
+  }
+
+  // Week End Date
+  let weekEndDate;
+  const endOfMonthDiff =
+    findEndOfWeek(startValues) - daysInMonth(Number(startValues[2].value));
+
+  // Check if end of week is in next month
+  if (endOfMonthDiff > 0) {
+    let nextYear = null;
+    let nextMonth = Number(startValues[2].value) + 1;
+
+    // Make date adjustments if end of week is in next year
+    if (nextMonth === 13) {
+      nextMonth = 1;
+      nextYear = Number(startValues[6].value) + 1;
+    }
+
+    weekEndDate = `${
+      nextYear || startValues[6].value
+    }-${nextMonth}-${endOfMonthDiff}`;
+  } else {
+    weekEndDate = `${startValues[6].value}-${
+      startValues[2].value
+    }-${findEndOfWeek(startValues)}`;
+  }
 
   // Set additional values to export
   const dateYMD = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;

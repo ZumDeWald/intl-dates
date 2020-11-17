@@ -4,9 +4,7 @@ Easily get useful date-related information using JavaScript Intl.
 
 ### Description
 
-This package provides a quick and easy way to work with dates by returning an object containing commonly used, date-related data. It can also be passed an [options object](#options) to further customize the way the date information comes back. <br />
-
-This package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`), each of which return an object (`dates`) containing the same key/value pairs.
+This package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`); each of which return an object (`dates`) containing commonly used, date-related data. Each can also be passed an [options object](#options) to further customize the way the date information comes back. <br />
 
 ### Sections:
 
@@ -29,11 +27,11 @@ This package exports both a Vanilla JavaScript function (`intlDates`) and a cust
 Both the `intlDates` function and `useIntlDates` hook return an object named `dates` with various date-related information allowing you to simply grab it and arrange it as you need. ([see example further down](#examples))<br /> <br />
 The `dates` object returned contains the following key/value pairs:
 
-- `dateDMY`: <br /> &nbsp; String containing the current date in the following format: "DD-MM-YYYY"
+- `dateDMY`: <br /> &nbsp; String containing the date in the following format: "DD-MM-YYYY"
 
-- `dateMDY`: <br /> &nbsp; String containing the current date in the following format: "MM-DD-YYYY"
+- `dateMDY`: <br /> &nbsp; String containing the date in the following format: "MM-DD-YYYY"
 
-- `dateYMD`: <br /> &nbsp; String containing the current date in the following format: "YYYY-MM-DD"
+- `dateYMD`: <br /> &nbsp; String containing the date in the following format: "YYYY-MM-DD"
 
 - `dayOfMonth`: <br /> &nbsp; String containing the day of the month in numeric form, e.g. "24"
 
@@ -43,19 +41,19 @@ The `dates` object returned contains the following key/value pairs:
 
 - `monthShort`: <br /> &nbsp; String containing the month expressed as a short name, e.g. "Oct"
 
-- `weekEndDate`: ([see use case further down](#date-ranges)) <br /> &nbsp; String containing the full date of the Saturday of the current week in the following format: "YYYY-MM-DD"
+- `weekEndDate`: ([see use case further down](#date-ranges)) <br /> &nbsp; String containing the full date of the Saturday of the week in the following format: "YYYY-MM-DD"
 
-- `weekStartDate`: ([see use case further down](#date-ranges)) <br /> &nbsp; String containing the full date of the Sunday of the current week in the following format: "YYYY-MM-DD"
+- `weekStartDate`: ([see use case further down](#date-ranges)) <br /> &nbsp; String containing the full date of the Sunday of the week in the following format: "YYYY-MM-DD"
 
-- `weekdayLong`: <br /> &nbsp; String containing the full name of the current weekday, e.g. "Saturday"
+- `weekdayLong`: <br /> &nbsp; String containing the full name of the weekday, e.g. "Saturday"
 
-- `weekdayShort`: <br /> &nbsp; String containing the short name of the current weekday, e.g. "Sat"
+- `weekdayShort`: <br /> &nbsp; String containing the short name of the weekday, e.g. "Sat"
 
 - `year`: <br /> &nbsp; String containing the year expressed in numeric form, e.g. "2020"
 
 ## Dependencies
 
-Great news! This code uses the power of the [JavaScript Intl object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat). _No outside libraries or code_ is needed by this package, so no alerts that a dependency of a dependency has a security issue!<br />
+This code uses the power of the [JavaScript Intl object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat). _No outside libraries or code_ is needed by this package, so no alerts that a dependency of a dependency has a security issue!<br />
 
 ### There are only 2 things to be aware of if using this package:
 
@@ -81,7 +79,7 @@ Both `intlDates` and `useIntlDates` will accept an object of these options ([see
    - default: today's date <br />
    - This option allows you to get back date information based on a specific date. <br />
    - Any value accepted by the JavaScript [Date()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date#Parameters) constructor will work. <br />
-   - Examples: "2020-10-24T14:48:00", "2020-10-24", "10/24/2020", "October 24, 2020"
+   - Examples: "2020-10-24T14:48:00", "10/24/2020", "October 24, 2020"
 
 ## Examples
 
@@ -187,7 +185,7 @@ const MyComponent = () => {
 
 #### Specify Locale
 
-Passing in a specific locale through the options object will return the data in a specific language. Consider the following if you wanted to be sure the day of the week and month returned in Danish.
+Passing a locale through the options object will return the data in a specific language. Consider the following if you wanted to be sure the day of the week and month returned in Danish.
 
 > Note: the default locale is set to 'default', which allows the browser to choose which locale is used.
 
