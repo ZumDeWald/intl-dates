@@ -108,13 +108,15 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   const beginOfMonthDiff = findStartOfWeek(startValues);
 
   if (beginOfMonthDiff <= 0) {
+    let prevYear = null;
     let prevMonth = Number(startValues[2].value) - 1;
     if (prevMonth === 0) {
       prevMonth = 12;
+      prevYear = Number(startValues[6].value) - 1;
     }
     const daysInPrevMonth = daysInMonth(prevMonth);
 
-    weekStartDate = `${startValues[6].value}-${prevMonth}-${
+    weekStartDate = `${prevYear || startValues[6].value}-${prevMonth}-${
       daysInPrevMonth + beginOfMonthDiff
     }`;
   } else {
@@ -126,12 +128,16 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   const endOfMonthDiff =
     findEndOfWeek(startValues) - daysInMonth(Number(startValues[2].value));
   if (endOfMonthDiff > 0) {
+    let nextYear = null;
     let nextMonth = Number(startValues[2].value) + 1;
     if (nextMonth === 13) {
       nextMonth = 1;
+      nextYear = Number(startValues[6].value) + 1;
     }
 
-    weekEndDate = `${startValues[6].value}-${nextMonth}-${endOfMonthDiff}`;
+    weekEndDate = `${
+      nextYear || startValues[6].value
+    }-${nextMonth}-${endOfMonthDiff}`;
   } else {
     weekEndDate = `${startValues[6].value}-${
       startValues[2].value
