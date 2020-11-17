@@ -69,6 +69,37 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
     }
   };
 
+  const daysInMonth = (monthAsNum) => {
+    switch (monthAsNum) {
+      case 1:
+        return 31;
+      case 2:
+        return 28;
+      case 3:
+        return 31;
+      case 4:
+        return 30;
+      case 5:
+        return 31;
+      case 6:
+        return 30;
+      case 7:
+        return 31;
+      case 8:
+        return 31;
+      case 9:
+        return 30;
+      case 10:
+        return 31;
+      case 11:
+        return 30;
+      case 12:
+        return 31;
+      default:
+        return null;
+    }
+  };
+
   // Set startValues with Intl -- locale must stay English here so switch above can match
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
@@ -80,12 +111,49 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
   // Derive this week start and end dates to export
   useEffect(() => {
     if (startValues) {
-      let sundayDate = `${startValues[6].value}-${
-        startValues[2].value
-      }-${findStartOfWeek(startValues)}`;
-      let saturdayDate = `${startValues[6].value}-${
-        startValues[2].value
-      }-${findEndOfWeek(startValues)}`;
+      // Week Start Date
+      let sundayDate;
+      const beginOfMonthDiff = findStartOfWeek(startValues);
+
+      if (beginOfMonthDiff <= 0) {
+        let prevYear = null;
+        let prevMonth = Number(startValues[2].value) - 1;
+
+        if (prevMonth === 0) {
+          prevMonth = 12;
+          prevYear = Number(startValues[6].value) - 1;
+        }
+
+        const daysInPrevMonth = daysInMonth(prevMonth);
+
+        sundayDate = `${prevYear || startValues[6].value}-${prevMonth}-${
+          daysInPrevMonth + beginOfMonthDiff
+        }`;
+      } else {
+        sundayDate = `${startValues[6].value}-${startValues[2].value}-${beginOfMonthDiff}`;
+      }
+
+      // Week End Date
+      let saturdayDate;
+      const endOfMonthDiff =
+        findEndOfWeek(startValues) - daysInMonth(Number(startValues[2].value));
+      if (endOfMonthDiff > 0) {
+        let nextYear = null;
+        let nextMonth = Number(startValues[2].value) + 1;
+
+        if (nextMonth === 13) {
+          nextMonth = 1;
+          nextYear = Number(startValues[6].value) + 1;
+        }
+
+        saturdayDate = `${
+          nextYear || startValues[6].value
+        }-${nextMonth}-${endOfMonthDiff}`;
+      } else {
+        saturdayDate = `${startValues[6].value}-${
+          startValues[2].value
+        }-${findEndOfWeek(startValues)}`;
+      }
 
       setDates((prevDates) => {
         return {

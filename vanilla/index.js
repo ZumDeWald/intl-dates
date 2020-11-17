@@ -110,10 +110,12 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   if (beginOfMonthDiff <= 0) {
     let prevYear = null;
     let prevMonth = Number(startValues[2].value) - 1;
+
     if (prevMonth === 0) {
       prevMonth = 12;
       prevYear = Number(startValues[6].value) - 1;
     }
+
     const daysInPrevMonth = daysInMonth(prevMonth);
 
     weekStartDate = `${prevYear || startValues[6].value}-${prevMonth}-${
@@ -130,6 +132,7 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   if (endOfMonthDiff > 0) {
     let nextYear = null;
     let nextMonth = Number(startValues[2].value) + 1;
+
     if (nextMonth === 13) {
       nextMonth = 1;
       nextYear = Number(startValues[6].value) + 1;
