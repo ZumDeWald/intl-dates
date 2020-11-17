@@ -106,7 +106,7 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
     setStartValues(
       formatter.formatToParts(!!date ? new Date(date) : new Date())
     );
-  }, [intlBaseOptions]);
+  }, [intlBaseOptions, date]);
 
   // Derive this week start and end dates to export
   useEffect(() => {
@@ -115,10 +115,12 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
       let sundayDate;
       const beginOfMonthDiff = findStartOfWeek(startValues);
 
+      // Check if start of week is in previous month
       if (beginOfMonthDiff <= 0) {
         let prevYear = null;
         let prevMonth = Number(startValues[2].value) - 1;
 
+        // Make date adjustments if start of week is in previous year
         if (prevMonth === 0) {
           prevMonth = 12;
           prevYear = Number(startValues[6].value) - 1;
@@ -137,10 +139,13 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
       let saturdayDate;
       const endOfMonthDiff =
         findEndOfWeek(startValues) - daysInMonth(Number(startValues[2].value));
+
+      // Check if end of week is in next month
       if (endOfMonthDiff > 0) {
         let nextYear = null;
         let nextMonth = Number(startValues[2].value) + 1;
 
+        // Make date adjustments if end of week is in next year
         if (nextMonth === 13) {
           nextMonth = 1;
           nextYear = Number(startValues[6].value) + 1;
@@ -205,7 +210,7 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
         weekdayLong: formatted[2].value,
       };
     });
-  }, [intlMonthWeekdayLongOptions, locale]);
+  }, [intlMonthWeekdayLongOptions, locale, date]);
 
   // Set monthShort and weekdayShort values to export
   useEffect(() => {
@@ -224,7 +229,7 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
         weekdayShort: formatted[2].value,
       };
     });
-  }, [intlMonthWeekdayShortOptions, locale]);
+  }, [intlMonthWeekdayShortOptions, locale, date]);
 
   return dates;
 }
