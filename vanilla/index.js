@@ -65,12 +65,21 @@ export default function intlDates({ locale = "default", date = null } = {}) {
     }
   };
 
-  const daysInMonth = (monthAsNum) => {
+  const daysInMonth = (monthAsNum, yearAsNum) => {
     switch (monthAsNum) {
       case 1:
         return 31;
       case 2:
-        return 28;
+        // Determine if it is a leap year and adjust Feburary if needed
+        if (yearAsNum % 4 !== 0) {
+          return 28;
+        } else if (yearAsNum % 100 !== 0) {
+          return 29;
+        } else if (yearAsNum % 400 !== 0) {
+          return 28;
+        } else {
+          return 29;
+        }
       case 3:
         return 31;
       case 4:
@@ -102,6 +111,11 @@ export default function intlDates({ locale = "default", date = null } = {}) {
     !!date ? new Date(date) : new Date()
   );
 
+  // Save commonly used values from startValues
+  const startValuesYear = startValues[6].value;
+  const startValuesMonth = startValues[2].value;
+  const startValuesDayNum = startValues[4].value;
+
   /* Derive this week start and end dates to export */
   // Week Start Date
   let weekStartDate;
@@ -110,60 +124,61 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   // Check if start of week is in previous month
   if (beginOfMonthDiff <= 0) {
     let prevYear = null;
-    let prevMonth = Number(startValues[2].value) - 1;
+    let prevMonth = Number(startValuesMonth) - 1;
 
     // Make date adjustments if start of week is in previous year
     if (prevMonth === 0) {
       prevMonth = 12;
-      prevYear = Number(startValues[6].value) - 1;
+      prevYear = Number(startValuesYear) - 1;
     }
 
-    const daysInPrevMonth = daysInMonth(prevMonth);
+    const daysInPrevMonth = daysInMonth(prevMonth, Number(startValuesYear));
 
-    weekStartDate = `${prevYear || startValues[6].value}-${prevMonth}-${
+    weekStartDate = `${prevYear || startValuesYear}-${prevMonth}-${
       daysInPrevMonth + beginOfMonthDiff
     }`;
   } else {
-    weekStartDate = `${startValues[6].value}-${startValues[2].value}-${beginOfMonthDiff}`;
+    weekStartDate = `${startValuesYear}-${startValuesMonth}-${beginOfMonthDiff}`;
   }
 
   // Week End Date
   let weekEndDate;
   const endOfMonthDiff =
-    findEndOfWeek(startValues) - daysInMonth(Number(startValues[2].value));
+    findEndOfWeek(startValues) -
+    daysInMonth(Number(startValuesMonth), Number(startValuesYear));
 
   // Check if end of week is in next month
   if (endOfMonthDiff > 0) {
     let nextYear = null;
-    let nextMonth = Number(startValues[2].value) + 1;
+    let nextMonth = Number(startValuesMonth) + 1;
 
     // Make date adjustments if end of week is in next year
     if (nextMonth === 13) {
       nextMonth = 1;
-      nextYear = Number(startValues[6].value) + 1;
+      nextYear = Number(startValuesYear) + 1;
     }
 
     weekEndDate = `${
-      nextYear || startValues[6].value
+      nextYear || startValuesYear
     }-${nextMonth}-${endOfMonthDiff}`;
   } else {
-    weekEndDate = `${startValues[6].value}-${
-      startValues[2].value
-    }-${findEndOfWeek(startValues)}`;
+    weekEndDate = `${startValuesYear}-${startValuesMonth}-${findEndOfWeek(
+      startValues
+    )}`;
   }
 
   // Set additional values to export
-  const dateYMD = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;
+  const dateYMD = `${startValuesYear}-${startValuesMonth}-${startValuesDayNum}`;
 
-  const dateDMY = `${startValues[4].value}-${startValues[2].value}-${startValues[6].value}`;
+  const dateDMY = `${startValuesDayNum}-${startValuesMonth}-${startValuesYear}`;
 
-  const dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
+  const dateMDY = `${startValuesMonth}-${startValuesDayNum}-${startValuesYear}`;
 
-  const monthNumeric = startValues[2].value;
+  const monthNumeric = startValuesMonth;
 
-  const dayOfMonth = startValues[4].value;
+  const dayOfMonth = startValuesDayNum;
 
-  const year = startValues[6].value;
+  const year = startValuesYear;
 
   // Set monthLong weekdayLong values to export
   const longFormatter = new Intl.DateTimeFormat(
