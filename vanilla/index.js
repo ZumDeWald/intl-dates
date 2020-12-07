@@ -65,12 +65,21 @@ export default function intlDates({ locale = "default", date = null } = {}) {
     }
   };
 
-  const daysInMonth = (monthAsNum) => {
+  const daysInMonth = (monthAsNum, yearAsNum) => {
     switch (monthAsNum) {
       case 1:
         return 31;
       case 2:
-        return 28;
+        // Determine if it is a leap year and adjust Feburary if needed
+        if (yearAsNum % 4 !== 0) {
+          return 28;
+        } else if (yearAsNum % 100 !== 0) {
+          return 29;
+        } else if (yearAsNum % 400 !== 0) {
+          return 28;
+        } else {
+          return 29;
+        }
       case 3:
         return 31;
       case 4:
@@ -118,7 +127,10 @@ export default function intlDates({ locale = "default", date = null } = {}) {
       prevYear = Number(startValues[6].value) - 1;
     }
 
-    const daysInPrevMonth = daysInMonth(prevMonth);
+    const daysInPrevMonth = daysInMonth(
+      prevMonth,
+      Number(startValues[6].value)
+    );
 
     weekStartDate = `${prevYear || startValues[6].value}-${prevMonth}-${
       daysInPrevMonth + beginOfMonthDiff
@@ -130,7 +142,8 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   // Week End Date
   let weekEndDate;
   const endOfMonthDiff =
-    findEndOfWeek(startValues) - daysInMonth(Number(startValues[2].value));
+    findEndOfWeek(startValues) -
+    daysInMonth(Number(startValues[2].value), Number(startValues[6].value));
 
   // Check if end of week is in next month
   if (endOfMonthDiff > 0) {
