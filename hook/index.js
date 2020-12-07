@@ -19,6 +19,9 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
   });
 
   const [startValues, setStartValues] = useState();
+  const [startValuesYear, setStartValuesYear] = useState();
+  const [startValuesMonth, setStartValuesMonth] = useState();
+  const [startValuesDayNum, setStartValuesDayNum] = useState();
   const [dates, setDates] = useState({});
 
   const findStartOfWeek = (intlValues) => {
@@ -112,9 +115,13 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
   // Set startValues with Intl -- locale must stay English here so switch above can match
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
-    setStartValues(
-      formatter.formatToParts(!!date ? new Date(date) : new Date())
+    const startValues = formatter.formatToParts(
+      !!date ? new Date(date) : new Date()
     );
+    setStartValues(startValues);
+    setStartValuesYear(startValues[6].value);
+    setStartValuesMonth(startValues[2].value);
+    setStartValuesDayNum(startValues[4].value);
   }, [intlBaseOptions, date]);
 
   // Derive this week start and end dates to export
@@ -127,50 +134,47 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
       // Check if start of week is in previous month
       if (beginOfMonthDiff <= 0) {
         let prevYear = null;
-        let prevMonth = Number(startValues[2].value) - 1;
+        let prevMonth = Number(startValuesMonth) - 1;
 
         // Make date adjustments if start of week is in previous year
         if (prevMonth === 0) {
           prevMonth = 12;
-          prevYear = Number(startValues[6].value) - 1;
+          prevYear = Number(startValuesYear) - 1;
         }
 
-        const daysInPrevMonth = daysInMonth(
-          prevMonth,
-          Number(startValues[6].value)
-        );
+        const daysInPrevMonth = daysInMonth(prevMonth, Number(startValuesYear));
 
-        sundayDate = `${prevYear || startValues[6].value}-${prevMonth}-${
+        sundayDate = `${prevYear || startValuesYear}-${prevMonth}-${
           daysInPrevMonth + beginOfMonthDiff
         }`;
       } else {
-        sundayDate = `${startValues[6].value}-${startValues[2].value}-${beginOfMonthDiff}`;
+        sundayDate = `${startValuesYear}-${startValuesMonth}-${beginOfMonthDiff}`;
       }
 
       // Week End Date
       let saturdayDate;
       const endOfMonthDiff =
         findEndOfWeek(startValues) -
-        daysInMonth(Number(startValues[2].value), Number(startValues[6].value));
+        daysInMonth(Number(startValuesMonth), Number(startValuesYear));
 
       // Check if end of week is in next month
       if (endOfMonthDiff > 0) {
         let nextYear = null;
-        let nextMonth = Number(startValues[2].value) + 1;
+        let nextMonth = Number(startValuesMonth) + 1;
 
         // Make date adjustments if end of week is in next year
         if (nextMonth === 13) {
           nextMonth = 1;
-          nextYear = Number(startValues[6].value) + 1;
+          nextYear = Number(startValuesYear) + 1;
         }
 
         saturdayDate = `${
-          nextYear || startValues[6].value
+          nextYear || startValuesYear
         }-${nextMonth}-${endOfMonthDiff}`;
       } else {
-        saturdayDate = `${startValues[6].value}-${
-          startValues[2].value
-        }-${findEndOfWeek(startValues)}`;
+        saturdayDate = `${startValuesYear}-${startValuesMonth}-${findEndOfWeek(
+          startValues
+        )}`;
       }
 
       setDates((prevDates) => {
@@ -186,11 +190,11 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
   // Set base values to export
   useEffect(() => {
     if (startValues) {
-      let dateYMD = `${startValues[6].value}-${startValues[2].value}-${startValues[4].value}`;
+      let dateYMD = `${startValuesYear}-${startValuesMonth}-${startValuesDayNum}`;
 
-      let dateDMY = `${startValues[4].value}-${startValues[2].value}-${startValues[6].value}`;
+      let dateDMY = `${startValuesDayNum}-${startValuesMonth}-${startValuesYear}`;
 
-      let dateMDY = `${startValues[2].value}-${startValues[4].value}-${startValues[6].value}`;
+      let dateMDY = `${startValuesMonth}-${startValuesDayNum}-${startValuesYear}`;
 
       setDates((prevDates) => {
         return {
@@ -198,9 +202,9 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
           dateYMD,
           dateDMY,
           dateMDY,
-          monthNumeric: startValues[2].value,
-          dayOfMonth: startValues[4].value,
-          year: startValues[6].value,
+          monthNumeric: startValuesMonth,
+          dayOfMonth: startValuesDayNum,
+          year: startValuesYear,
         };
       });
     }
