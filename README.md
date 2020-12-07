@@ -1,6 +1,6 @@
 # intl-dates
 
-Easily get useful date-related information using JavaScript Intl.
+Easily get useful date-related information in JavaScript (uses Intl).
 
 ### Description
 
