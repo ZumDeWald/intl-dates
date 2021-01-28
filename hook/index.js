@@ -3,19 +3,18 @@ import { useEffect, useState } from "react";
 export default function useIntlDates({ locale = "default", date = null } = {}) {
   const [intlBaseOptions] = useState({
     weekday: "long",
-    day: "numeric",
     month: "numeric",
+    day: "numeric",
     year: "numeric",
   });
 
   const [intlMonthWeekdayLongOptions] = useState({
     month: "long",
-    weekday: "long",
   });
 
   const [intlMonthWeekdayShortOptions] = useState({
-    month: "short",
     weekday: "short",
+    month: "short",
   });
 
   const [startValues, setStartValues] = useState();
