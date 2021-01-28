@@ -2,64 +2,58 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   // Set options passed to Intl calls
   const intlBaseOptions = {
     weekday: "long",
-    day: "numeric",
     month: "numeric",
+    day: "numeric",
     year: "numeric",
   };
 
-  const intlMonthWeekdayLongOptions = {
-    month: "long",
+  const intlMonthLongOptions = {
     weekday: "long",
+    month: "long",
   };
 
   const intlMonthWeekdayShortOptions = {
-    month: "short",
     weekday: "short",
+    month: "short",
   };
 
-  const findStartOfWeek = (intlValues) => {
-    const weekday = intlValues[0].value;
-    const dayOfMonth = intlValues[4].value;
-
+  const findStartOfWeek = (weekday, dayNumeric) => {
     switch (weekday) {
       case "Sunday":
-        return Number(dayOfMonth);
+        return dayNumeric;
       case "Monday":
-        return Number(dayOfMonth) - 1;
+        return dayNumeric - 1;
       case "Tuesday":
-        return Number(dayOfMonth) - 2;
+        return dayNumeric - 2;
       case "Wednesday":
-        return Number(dayOfMonth) - 3;
+        return dayNumeric - 3;
       case "Thursday":
-        return Number(dayOfMonth) - 4;
+        return dayNumeric - 4;
       case "Friday":
-        return Number(dayOfMonth) - 5;
+        return dayNumeric - 5;
       case "Saturday":
-        return Number(dayOfMonth) - 6;
+        return dayNumeric - 6;
       default:
         return null;
     }
   };
 
-  const findEndOfWeek = (intlValues) => {
-    const weekday = intlValues[0].value;
-    const dayOfMonth = intlValues[4].value;
-
+  const findEndOfWeek = (weekday, dayNumeric) => {
     switch (weekday) {
       case "Sunday":
-        return Number(dayOfMonth) + 6;
+        return dayNumeric + 6;
       case "Monday":
-        return Number(dayOfMonth) + 5;
+        return dayNumeric + 5;
       case "Tuesday":
-        return Number(dayOfMonth) + 4;
+        return dayNumeric + 4;
       case "Wednesday":
-        return Number(dayOfMonth) + 3;
+        return dayNumeric + 3;
       case "Thursday":
-        return Number(dayOfMonth) + 2;
+        return dayNumeric + 2;
       case "Friday":
-        return Number(dayOfMonth) + 1;
+        return dayNumeric + 1;
       case "Saturday":
-        return Number(dayOfMonth);
+        return dayNumeric;
       default:
         return null;
     }
@@ -106,103 +100,143 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   };
 
   // Set startValues with Intl -- locale needs to stay English here so switch above can match
-  const baseFormatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
-  const startValues = baseFormatter.formatToParts(
-    !!date ? new Date(date) : new Date()
-  );
+  const startValues = new Intl.DateTimeFormat(
+    "en-US",
+    intlBaseOptions
+  ).formatToParts(!!date ? new Date(date) : new Date());
 
-  // Save commonly used values from startValues
-  const startValuesYear = startValues[6].value;
-  const startValuesMonth = startValues[2].value;
-  const startValuesDayNum = startValues[4].value;
+  // Loop through Intl return and assign values based on correct type
+  let weekdayEng;
+  let monthNumeric;
+  let dayOfMonth;
+  let year;
 
-  /* Derive this week start and end dates to export */
+  const assignInitialValues = (objFromIntlArray) => {
+    switch (objFromIntlArray.type) {
+      case "literal":
+        break;
+      case "weekday":
+        return (weekdayEng = objFromIntlArray.value);
+      case "month":
+        return (monthNumeric = objFromIntlArray.value);
+      case "day":
+        return (dayOfMonth = objFromIntlArray.value);
+      case "year":
+        return (year = objFromIntlArray.value);
+      default:
+        break;
+    }
+  };
+
+  startValues.forEach((item) => {
+    assignInitialValues(item);
+  });
+
+  /* === Derive this week start and end dates to export === */
+
   // Week Start Date
   let weekStartDate;
-  const beginOfMonthDiff = findStartOfWeek(startValues);
+  const beginOfMonthDiff = findStartOfWeek(weekdayEng, Number(dayOfMonth));
 
   // Check if start of week is in previous month
   if (beginOfMonthDiff <= 0) {
     let prevYear = null;
-    let prevMonth = Number(startValuesMonth) - 1;
+    let prevMonth = Number(monthNumeric) - 1;
 
     // Make date adjustments if start of week is in previous year
     if (prevMonth === 0) {
       prevMonth = 12;
-      prevYear = Number(startValuesYear) - 1;
+      prevYear = Number(year) - 1;
     }
 
-    const daysInPrevMonth = daysInMonth(prevMonth, Number(startValuesYear));
+    const daysInPrevMonth = daysInMonth(prevMonth, Number(year));
 
-    weekStartDate = `${prevYear || startValuesYear}-${prevMonth}-${
+    weekStartDate = `${prevYear || year}-${prevMonth}-${
       daysInPrevMonth + beginOfMonthDiff
     }`;
   } else {
-    weekStartDate = `${startValuesYear}-${startValuesMonth}-${beginOfMonthDiff}`;
+    weekStartDate = `${year}-${monthNumeric}-${beginOfMonthDiff}`;
   }
 
   // Week End Date
   let weekEndDate;
   const endOfMonthDiff =
-    findEndOfWeek(startValues) -
-    daysInMonth(Number(startValuesMonth), Number(startValuesYear));
+    findEndOfWeek(weekdayEng, Number(dayOfMonth)) -
+    daysInMonth(Number(monthNumeric), Number(year));
 
   // Check if end of week is in next month
   if (endOfMonthDiff > 0) {
     let nextYear = null;
-    let nextMonth = Number(startValuesMonth) + 1;
+    let nextMonth = Number(monthNumeric) + 1;
 
     // Make date adjustments if end of week is in next year
     if (nextMonth === 13) {
       nextMonth = 1;
-      nextYear = Number(startValuesYear) + 1;
+      nextYear = Number(year) + 1;
     }
 
-    weekEndDate = `${
-      nextYear || startValuesYear
-    }-${nextMonth}-${endOfMonthDiff}`;
+    weekEndDate = `${nextYear || year}-${nextMonth}-${endOfMonthDiff}`;
   } else {
-    weekEndDate = `${startValuesYear}-${startValuesMonth}-${findEndOfWeek(
-      startValues
+    weekEndDate = `${year}-${monthNumeric}-${findEndOfWeek(
+      weekdayEng,
+      Number(dayOfMonth)
     )}`;
   }
 
-  // Set additional values to export
-  const dateYMD = `${startValuesYear}-${startValuesMonth}-${startValuesDayNum}`;
+  // Set year/month/day values to export
+  const dateYMD = `${year}-${monthNumeric}-${dayOfMonth}`;
 
-  const dateDMY = `${startValuesDayNum}-${startValuesMonth}-${startValuesYear}`;
+  const dateDMY = `${dayOfMonth}-${monthNumeric}-${year}`;
 
-  const dateMDY = `${startValuesMonth}-${startValuesDayNum}-${startValuesYear}`;
+  const dateMDY = `${monthNumeric}-${dayOfMonth}-${year}`;
 
-  const monthNumeric = startValuesMonth;
-
-  const dayOfMonth = startValuesDayNum;
-
-  const year = startValuesYear;
-
-  // Set monthLong weekdayLong values to export
-  const longFormatter = new Intl.DateTimeFormat(
+  // Set weekdayLong monthLong values to export
+  const longFormatted = new Intl.DateTimeFormat(
     locale,
-    intlMonthWeekdayLongOptions
-  );
-  const longFormatted = longFormatter.formatToParts(
-    !!date ? new Date(date) : new Date()
-  );
+    intlMonthLongOptions
+  ).formatToParts(!!date ? new Date(date) : new Date());
 
-  const monthLong = longFormatted[0].value;
-  const weekdayLong = longFormatted[2].value;
+  let weekdayLong;
+  let monthLong;
 
-  // Set monthShort and weekdayShort values to export
-  const shortFormatter = new Intl.DateTimeFormat(
+  const assignLongValues = (objFromIntlArray) => {
+    switch (objFromIntlArray.type) {
+      case "literal":
+        break;
+      case "weekday":
+        return (weekdayLong = objFromIntlArray.value);
+      case "month":
+        return (monthLong = objFromIntlArray.value);
+    }
+  };
+
+  longFormatted.forEach((item) => {
+    assignLongValues(item);
+  });
+
+  // Set weekdayShort monthShort values to export
+  const shortFormatted = new Intl.DateTimeFormat(
     locale,
     intlMonthWeekdayShortOptions
-  );
-  const shortFormatted = shortFormatter.formatToParts(
-    !!date ? new Date(date) : new Date()
-  );
+  ).formatToParts(!!date ? new Date(date) : new Date());
 
-  const monthShort = shortFormatted[0].value;
-  const weekdayShort = shortFormatted[2].value;
+  let weekdayShort;
+  let monthShort;
+
+  const assignShortValues = (objFromIntlArray) => {
+    switch (objFromIntlArray.type) {
+      case "literal":
+        break;
+      case "weekday":
+        return (weekdayShort = objFromIntlArray.value);
+      case "month":
+        return (monthShort = objFromIntlArray.value);
+    }
+  };
+
+  shortFormatted.forEach((item) => {
+    assignShortValues(item);
+  });
 
   const dates = {
     weekStartDate,
