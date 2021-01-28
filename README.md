@@ -290,6 +290,7 @@ This list includes current and planned features. Check the issues page for a mor
 - [x] This package offers a VanillaJS and custom React hook option
 - [x] Options object accepts `locale` property to specify a locale/language for Intl to use
 - [x] Options object will allow a `date` property to get back data based on a specific date instead of only from the current day.
+- [x] Accounts for leap years when getting date information.
 
 ## Why offer VanillaJS and hook options?
 
