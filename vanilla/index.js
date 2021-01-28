@@ -131,7 +131,8 @@ export default function intlDates({ locale = "default", date = null } = {}) {
     assignInitialValues(item);
   });
 
-  /* Derive this week start and end dates to export */
+  /* === Derive this week start and end dates to export === */
+
   // Week Start Date
   let weekStartDate;
   const beginOfMonthDiff = findStartOfWeek(weekdayLong, Number(dayOfMonth));
@@ -189,10 +190,10 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   const dateMDY = `${monthNumeric}-${dayOfMonth}-${year}`;
 
   // Set monthLong values to export
-  const longFormatter = new Intl.DateTimeFormat(locale, intlMonthLongOptions);
-  const longFormatted = longFormatter.formatToParts(
-    !!date ? new Date(date) : new Date()
-  );
+  const longFormatted = new Intl.DateTimeFormat(
+    locale,
+    intlMonthLongOptions
+  ).formatToParts(!!date ? new Date(date) : new Date());
 
   const monthLong = longFormatted[0].value;
 
