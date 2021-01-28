@@ -8,6 +8,7 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   };
 
   const intlMonthLongOptions = {
+    weekday: "long",
     month: "long",
   };
 
@@ -105,7 +106,7 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   ).formatToParts(!!date ? new Date(date) : new Date());
 
   // Loop through Intl return and assign values based on correct type
-  let weekdayLong;
+  let weekdayEng;
   let monthNumeric;
   let dayOfMonth;
   let year;
@@ -115,7 +116,7 @@ export default function intlDates({ locale = "default", date = null } = {}) {
       case "literal":
         break;
       case "weekday":
-        return (weekdayLong = objFromIntlArray.value);
+        return (weekdayEng = objFromIntlArray.value);
       case "month":
         return (monthNumeric = objFromIntlArray.value);
       case "day":
@@ -135,7 +136,7 @@ export default function intlDates({ locale = "default", date = null } = {}) {
 
   // Week Start Date
   let weekStartDate;
-  const beginOfMonthDiff = findStartOfWeek(weekdayLong, Number(dayOfMonth));
+  const beginOfMonthDiff = findStartOfWeek(weekdayEng, Number(dayOfMonth));
 
   // Check if start of week is in previous month
   if (beginOfMonthDiff <= 0) {
@@ -160,7 +161,7 @@ export default function intlDates({ locale = "default", date = null } = {}) {
   // Week End Date
   let weekEndDate;
   const endOfMonthDiff =
-    findEndOfWeek(weekdayLong, Number(dayOfMonth)) -
+    findEndOfWeek(weekdayEng, Number(dayOfMonth)) -
     daysInMonth(Number(monthNumeric), Number(year));
 
   // Check if end of week is in next month
@@ -177,27 +178,43 @@ export default function intlDates({ locale = "default", date = null } = {}) {
     weekEndDate = `${nextYear || year}-${nextMonth}-${endOfMonthDiff}`;
   } else {
     weekEndDate = `${year}-${monthNumeric}-${findEndOfWeek(
-      weekdayLong,
+      weekdayEng,
       Number(dayOfMonth)
     )}`;
   }
 
-  // Set additional values to export
+  // Set year/month/day values to export
   const dateYMD = `${year}-${monthNumeric}-${dayOfMonth}`;
 
   const dateDMY = `${dayOfMonth}-${monthNumeric}-${year}`;
 
   const dateMDY = `${monthNumeric}-${dayOfMonth}-${year}`;
 
-  // Set monthLong values to export
+  // Set weekdayLong monthLong values to export
   const longFormatted = new Intl.DateTimeFormat(
     locale,
     intlMonthLongOptions
   ).formatToParts(!!date ? new Date(date) : new Date());
 
-  const monthLong = longFormatted[0].value;
+  let weekdayLong;
+  let monthLong;
 
-  // Set monthShort and weekdayShort values to export
+  const assignLongValues = (objFromIntlArray) => {
+    switch (objFromIntlArray.type) {
+      case "literal":
+        break;
+      case "weekday":
+        return (weekdayLong = objFromIntlArray.value);
+      case "month":
+        return (monthLong = objFromIntlArray.value);
+    }
+  };
+
+  longFormatted.forEach((item) => {
+    assignLongValues(item);
+  });
+
+  // Set weekdayShort monthShort values to export
   const shortFormatted = new Intl.DateTimeFormat(
     locale,
     intlMonthWeekdayShortOptions
