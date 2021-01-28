@@ -9,6 +9,7 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
   });
 
   const [intlMonthWeekdayLongOptions] = useState({
+    weekday: "long",
     month: "long",
   });
 
@@ -17,55 +18,49 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
     month: "short",
   });
 
-  const [startValues, setStartValues] = useState();
-  const [startValuesYear, setStartValuesYear] = useState();
-  const [startValuesMonth, setStartValuesMonth] = useState();
-  const [startValuesDayNum, setStartValuesDayNum] = useState();
+  const [weekdayEng, setWeekdayEng] = useState();
+  const [monthNumeric, setMonthNumeric] = useState();
+  const [dayOfMonth, setDayOfMonth] = useState();
+  const [year, setYear] = useState();
   const [dates, setDates] = useState({});
 
-  const findStartOfWeek = (intlValues) => {
-    const weekday = intlValues[0].value;
-    const dayOfMonth = intlValues[4].value;
-
+  const findStartOfWeek = (weekday, dayNumeric) => {
     switch (weekday) {
       case "Sunday":
-        return Number(dayOfMonth);
+        return dayNumeric;
       case "Monday":
-        return Number(dayOfMonth) - 1;
+        return dayNumeric - 1;
       case "Tuesday":
-        return Number(dayOfMonth) - 2;
+        return dayNumeric - 2;
       case "Wednesday":
-        return Number(dayOfMonth) - 3;
+        return dayNumeric - 3;
       case "Thursday":
-        return Number(dayOfMonth) - 4;
+        return dayNumeric - 4;
       case "Friday":
-        return Number(dayOfMonth) - 5;
+        return dayNumeric - 5;
       case "Saturday":
-        return Number(dayOfMonth) - 6;
+        return dayNumeric - 6;
       default:
         return null;
     }
   };
 
-  const findEndOfWeek = (intlValues) => {
-    const weekday = intlValues[0].value;
-    const dayOfMonth = intlValues[4].value;
-
+  const findEndOfWeek = (weekday, dayNumeric) => {
     switch (weekday) {
       case "Sunday":
-        return Number(dayOfMonth) + 6;
+        return dayNumeric + 6;
       case "Monday":
-        return Number(dayOfMonth) + 5;
+        return dayNumeric + 5;
       case "Tuesday":
-        return Number(dayOfMonth) + 4;
+        return dayNumeric + 4;
       case "Wednesday":
-        return Number(dayOfMonth) + 3;
+        return dayNumeric + 3;
       case "Thursday":
-        return Number(dayOfMonth) + 2;
+        return dayNumeric + 2;
       case "Friday":
-        return Number(dayOfMonth) + 1;
+        return dayNumeric + 1;
       case "Saturday":
-        return Number(dayOfMonth);
+        return dayNumeric;
       default:
         return null;
     }
@@ -113,87 +108,103 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
 
   // Set startValues with Intl -- locale must stay English here so switch above can match
   useEffect(() => {
-    const formatter = new Intl.DateTimeFormat("en-US", intlBaseOptions);
-    const startValues = formatter.formatToParts(
-      !!date ? new Date(date) : new Date()
-    );
-    setStartValues(startValues);
-    setStartValuesYear(startValues[6].value);
-    setStartValuesMonth(startValues[2].value);
-    setStartValuesDayNum(startValues[4].value);
+    const startValues = new Intl.DateTimeFormat(
+      "en-US",
+      intlBaseOptions
+    ).formatToParts(!!date ? new Date(date) : new Date());
+
+    const assignInitialValues = (objFromIntlArray) => {
+      switch (objFromIntlArray.type) {
+        case "literal":
+          break;
+        case "weekday":
+          return setWeekdayEng(objFromIntlArray.value);
+        case "month":
+          return setMonthNumeric(objFromIntlArray.value);
+        case "day":
+          return setDayOfMonth(objFromIntlArray.value);
+        case "year":
+          return setYear(objFromIntlArray.value);
+        default:
+          break;
+      }
+    };
+
+    startValues.forEach((item) => {
+      assignInitialValues(item);
+    });
   }, [intlBaseOptions, date]);
 
-  // Derive this week start and end dates to export
+  // === Derive this week start and end dates to export === //
   useEffect(() => {
-    if (startValues) {
+    if (!!weekdayEng && !!dayOfMonth) {
       // Week Start Date
-      let sundayDate;
-      const beginOfMonthDiff = findStartOfWeek(startValues);
+      let weekStartDate;
+      const beginOfMonthDiff = findStartOfWeek(weekdayEng, Number(dayOfMonth));
 
       // Check if start of week is in previous month
       if (beginOfMonthDiff <= 0) {
         let prevYear = null;
-        let prevMonth = Number(startValuesMonth) - 1;
+        let prevMonth = Number(monthNumeric) - 1;
 
         // Make date adjustments if start of week is in previous year
         if (prevMonth === 0) {
           prevMonth = 12;
-          prevYear = Number(startValuesYear) - 1;
+          prevYear = Number(year) - 1;
         }
 
-        const daysInPrevMonth = daysInMonth(prevMonth, Number(startValuesYear));
+        const daysInPrevMonth = daysInMonth(prevMonth, Number(year));
 
-        sundayDate = `${prevYear || startValuesYear}-${prevMonth}-${
+        weekStartDate = `${prevYear || year}-${prevMonth}-${
           daysInPrevMonth + beginOfMonthDiff
         }`;
       } else {
-        sundayDate = `${startValuesYear}-${startValuesMonth}-${beginOfMonthDiff}`;
+        weekStartDate = `${year}-${monthNumeric}-${beginOfMonthDiff}`;
       }
 
       // Week End Date
-      let saturdayDate;
+      let weekEndDate;
       const endOfMonthDiff =
-        findEndOfWeek(startValues) -
-        daysInMonth(Number(startValuesMonth), Number(startValuesYear));
+        findEndOfWeek(weekdayEng, Number(dayOfMonth)) -
+        daysInMonth(Number(monthNumeric), Number(year));
 
       // Check if end of week is in next month
       if (endOfMonthDiff > 0) {
         let nextYear = null;
-        let nextMonth = Number(startValuesMonth) + 1;
+        let nextMonth = Number(monthNumeric) + 1;
 
         // Make date adjustments if end of week is in next year
         if (nextMonth === 13) {
           nextMonth = 1;
-          nextYear = Number(startValuesYear) + 1;
+          nextYear = Number(year) + 1;
         }
 
-        saturdayDate = `${
-          nextYear || startValuesYear
-        }-${nextMonth}-${endOfMonthDiff}`;
+        weekEndDate = `${nextYear || year}-${nextMonth}-${endOfMonthDiff}`;
       } else {
-        saturdayDate = `${startValuesYear}-${startValuesMonth}-${findEndOfWeek(
-          startValues
+        weekEndDate = `${year}-${monthNumeric}-${findEndOfWeek(
+          weekdayEng,
+          Number(dayOfMonth)
         )}`;
       }
 
       setDates((prevDates) => {
         return {
           ...prevDates,
-          weekStartDate: sundayDate,
-          weekEndDate: saturdayDate,
+          weekStartDate,
+          weekEndDate,
         };
       });
     }
-  }, [startValues]);
+  }, [weekdayEng, dayOfMonth]);
 
-  // Set base values to export
+  // Set year/month/date values to export
   useEffect(() => {
-    if (startValues) {
-      let dateYMD = `${startValuesYear}-${startValuesMonth}-${startValuesDayNum}`;
+    if (!!monthNumeric && !!year && !!dayOfMonth) {
+      let dateYMD = `${year}-${monthNumeric}-${dayOfMonth}`;
 
-      let dateDMY = `${startValuesDayNum}-${startValuesMonth}-${startValuesYear}`;
+      let dateDMY = `${dayOfMonth}-${monthNumeric}-${year}`;
 
-      let dateMDY = `${startValuesMonth}-${startValuesDayNum}-${startValuesYear}`;
+      let dateMDY = `${monthNumeric}-${dayOfMonth}-${year}`;
 
       setDates((prevDates) => {
         return {
@@ -201,48 +212,79 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
           dateYMD,
           dateDMY,
           dateMDY,
-          monthNumeric: startValuesMonth,
-          dayOfMonth: startValuesDayNum,
-          year: startValuesYear,
         };
       });
     }
-  }, [startValues]);
+  }, [monthNumeric, dayOfMonth, year]);
 
-  // Set monthLong weekdayLong values to export
+  // Set weekdayLong monthLong values to export
   useEffect(() => {
-    const formatter = new Intl.DateTimeFormat(
+    const formatted = new Intl.DateTimeFormat(
       locale,
       intlMonthWeekdayLongOptions
-    );
-    const formatted = formatter.formatToParts(
-      !!date ? new Date(date) : new Date()
-    );
+    ).formatToParts(!!date ? new Date(date) : new Date());
+
+    let weekdayLong;
+    let monthLong;
+
+    const assignLongValues = (objFromIntlArray) => {
+      switch (objFromIntlArray.type) {
+        case "literal":
+          break;
+        case "weekday":
+          return (weekdayLong = objFromIntlArray.value);
+        case "month":
+          return (monthLong = objFromIntlArray.value);
+        default:
+          break;
+      }
+    };
+
+    formatted.forEach((item) => {
+      assignLongValues(item);
+    });
 
     setDates((prevDates) => {
       return {
         ...prevDates,
-        monthLong: formatted[0].value,
-        weekdayLong: formatted[2].value,
+        weekdayLong,
+        monthLong,
       };
     });
   }, [intlMonthWeekdayLongOptions, locale, date]);
 
-  // Set monthShort and weekdayShort values to export
+  // Set weekdayShort monthShort values to export
   useEffect(() => {
-    const formatter = new Intl.DateTimeFormat(
+    const formatted = new Intl.DateTimeFormat(
       locale,
       intlMonthWeekdayShortOptions
-    );
-    const formatted = formatter.formatToParts(
-      !!date ? new Date(date) : new Date()
-    );
+    ).formatToParts(!!date ? new Date(date) : new Date());
+
+    let weekdayShort;
+    let monthShort;
+
+    const assignShortValues = (objFromIntlArray) => {
+      switch (objFromIntlArray.type) {
+        case "literal":
+          break;
+        case "weekday":
+          return (weekdayShort = objFromIntlArray.value);
+        case "month":
+          return (monthShort = objFromIntlArray.value);
+        default:
+          break;
+      }
+    };
+
+    formatted.forEach((item) => {
+      assignShortValues(item);
+    });
 
     setDates((prevDates) => {
       return {
         ...prevDates,
-        monthShort: formatted[0].value,
-        weekdayShort: formatted[2].value,
+        weekdayShort,
+        monthShort,
       };
     });
   }, [intlMonthWeekdayShortOptions, locale, date]);
