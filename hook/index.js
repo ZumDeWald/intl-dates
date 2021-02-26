@@ -122,9 +122,23 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
         case "month":
           return setMonthNumeric(objFromIntlArray.value);
         case "day":
-          return setDayOfMonth(objFromIntlArray.value);
+          setDayOfMonth(objFromIntlArray.value);
+          setDates((prevDates) => {
+            return {
+              ...prevDates,
+              dayOfMonth: objFromIntlArray.value,
+            };
+          });
+          break;
         case "year":
-          return setYear(objFromIntlArray.value);
+          setYear(objFromIntlArray.value);
+          setDates((prevDates) => {
+            return {
+              ...prevDates,
+              year: objFromIntlArray.value,
+            };
+          });
+          break;
         default:
           break;
       }
