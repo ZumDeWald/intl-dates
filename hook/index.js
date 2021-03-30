@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 
-export default function useIntlDates({ locale = "default", date = null } = {}) {
+export default function useIntlDates({
+  locale = "default",
+  date = null,
+  weekStartsOn = "SUN",
+} = {}) {
+  // Ensure weekStartsOn is 3 letters all caps
+  weekStartsOn = weekStartsOn.substr(0, 2).toUpperCase();
+
   const [intlBaseOptions] = useState({
     weekday: "long",
     month: "numeric",
@@ -27,19 +34,19 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
   const findStartOfWeek = (weekday, dayNumeric) => {
     switch (weekday) {
       case "Sunday":
-        return dayNumeric;
+        return weekStartsOn === "MON" ? dayNumeric - 6 : dayNumeric;
       case "Monday":
-        return dayNumeric - 1;
+        return weekStartsOn === "MON" ? dayNumeric : dayNumeric - 1;
       case "Tuesday":
-        return dayNumeric - 2;
+        return weekStartsOn === "MON" ? dayNumeric - 1 : dayNumeric - 2;
       case "Wednesday":
-        return dayNumeric - 3;
+        return weekStartsOn === "MON" ? dayNumeric - 2 : dayNumeric - 3;
       case "Thursday":
-        return dayNumeric - 4;
+        return weekStartsOn === "MON" ? dayNumeric - 3 : dayNumeric - 4;
       case "Friday":
-        return dayNumeric - 5;
+        return weekStartsOn === "MON" ? dayNumeric - 4 : dayNumeric - 5;
       case "Saturday":
-        return dayNumeric - 6;
+        return weekStartsOn === "MON" ? dayNumeric - 5 : dayNumeric - 6;
       default:
         return null;
     }
@@ -48,19 +55,19 @@ export default function useIntlDates({ locale = "default", date = null } = {}) {
   const findEndOfWeek = (weekday, dayNumeric) => {
     switch (weekday) {
       case "Sunday":
-        return dayNumeric + 6;
+        return weekStartsOn === "MON" ? dayNumeric : dayNumeric + 6;
       case "Monday":
-        return dayNumeric + 5;
+        return weekStartsOn === "MON" ? dayNumeric + 6 : dayNumeric + 5;
       case "Tuesday":
-        return dayNumeric + 4;
+        return weekStartsOn === "MON" ? dayNumeric + 5 : dayNumeric + 4;
       case "Wednesday":
-        return dayNumeric + 3;
+        return weekStartsOn === "MON" ? dayNumeric + 4 : dayNumeric + 3;
       case "Thursday":
-        return dayNumeric + 2;
+        return weekStartsOn === "MON" ? dayNumeric + 3 : dayNumeric + 2;
       case "Friday":
-        return dayNumeric + 1;
+        return weekStartsOn === "MON" ? dayNumeric + 2 : dayNumeric + 1;
       case "Saturday":
-        return dayNumeric;
+        return weekStartsOn === "MON" ? dayNumeric + 1 : dayNumeric;
       default:
         return null;
     }
