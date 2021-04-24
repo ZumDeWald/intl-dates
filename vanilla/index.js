@@ -118,18 +118,18 @@ export default function intlDates({
   let dayOfMonth;
   let year;
 
-  const assignInitialValues = (objFromIntlArray) => {
-    switch (objFromIntlArray.type) {
+  const assignInitialValues = (intlObj) => {
+    switch (intlObj.type) {
       case "literal":
         break;
       case "weekday":
-        return (weekdayEng = objFromIntlArray.value);
+        return (weekdayEng = intlObj.value);
       case "month":
-        return (monthNumeric = objFromIntlArray.value);
+        return (monthNumeric = intlObj.value);
       case "day":
-        return (dayOfMonth = objFromIntlArray.value);
+        return (dayOfMonth = intlObj.value);
       case "year":
-        return (year = objFromIntlArray.value);
+        return (year = intlObj.value);
       default:
         break;
     }
@@ -206,19 +206,13 @@ export default function intlDates({
   let weekdayLong;
   let monthLong;
 
-  const assignLongValues = (objFromIntlArray) => {
-    switch (objFromIntlArray.type) {
-      case "literal":
-        break;
-      case "weekday":
-        return (weekdayLong = objFromIntlArray.value);
-      case "month":
-        return (monthLong = objFromIntlArray.value);
+  longFormatted.forEach((intlObj) => {
+    if (intlObj.type === "weekday") {
+      weekdayLong = intlObj.value;
     }
-  };
-
-  longFormatted.forEach((item) => {
-    assignLongValues(item);
+    if (intlObj.type === "month") {
+      monthLong = intlObj.value;
+    }
   });
 
   // Set weekdayShort monthShort values to export
@@ -230,19 +224,13 @@ export default function intlDates({
   let weekdayShort;
   let monthShort;
 
-  const assignShortValues = (objFromIntlArray) => {
-    switch (objFromIntlArray.type) {
-      case "literal":
-        break;
-      case "weekday":
-        return (weekdayShort = objFromIntlArray.value);
-      case "month":
-        return (monthShort = objFromIntlArray.value);
+  shortFormatted.forEach((intlObj) => {
+    if (intlObj.type === "weekday") {
+      weekdayShort = intlObj.value;
     }
-  };
-
-  shortFormatted.forEach((item) => {
-    assignShortValues(item);
+    if (intlObj.type === "month") {
+      monthShort = intlObj.value;
+    }
   });
 
   const dates = {

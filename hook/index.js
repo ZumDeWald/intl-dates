@@ -120,29 +120,29 @@ export default function useIntlDates({
       intlBaseOptions
     ).formatToParts(!!date ? new Date(date) : new Date());
 
-    const assignInitialValues = (objFromIntlArray) => {
-      switch (objFromIntlArray.type) {
+    const assignInitialValues = (intlObj) => {
+      switch (intlObj.type) {
         case "literal":
           break;
         case "weekday":
-          return setWeekdayEng(objFromIntlArray.value);
+          return setWeekdayEng(intlObj.value);
         case "month":
-          return setMonthNumeric(objFromIntlArray.value);
+          return setMonthNumeric(intlObj.value);
         case "day":
-          setDayOfMonth(objFromIntlArray.value);
+          setDayOfMonth(intlObj.value);
           setDates((prevDates) => {
             return {
               ...prevDates,
-              dayOfMonth: objFromIntlArray.value,
+              dayOfMonth: intlObj.value,
             };
           });
           break;
         case "year":
-          setYear(objFromIntlArray.value);
+          setYear(intlObj.value);
           setDates((prevDates) => {
             return {
               ...prevDates,
-              year: objFromIntlArray.value,
+              year: intlObj.value,
             };
           });
           break;
@@ -248,21 +248,13 @@ export default function useIntlDates({
     let weekdayLong;
     let monthLong;
 
-    const assignLongValues = (objFromIntlArray) => {
-      switch (objFromIntlArray.type) {
-        case "literal":
-          break;
-        case "weekday":
-          return (weekdayLong = objFromIntlArray.value);
-        case "month":
-          return (monthLong = objFromIntlArray.value);
-        default:
-          break;
+    formatted.forEach((intlObj) => {
+      if (intlObj.type === "weekday") {
+        weekdayLong = intlObj.value;
       }
-    };
-
-    formatted.forEach((item) => {
-      assignLongValues(item);
+      if (intlObj.type === "month") {
+        monthLong = intlObj.value;
+      }
     });
 
     setDates((prevDates) => {
@@ -284,21 +276,13 @@ export default function useIntlDates({
     let weekdayShort;
     let monthShort;
 
-    const assignShortValues = (objFromIntlArray) => {
-      switch (objFromIntlArray.type) {
-        case "literal":
-          break;
-        case "weekday":
-          return (weekdayShort = objFromIntlArray.value);
-        case "month":
-          return (monthShort = objFromIntlArray.value);
-        default:
-          break;
+    formatted.forEach((intlObj) => {
+      if (intlObj.type === "weekday") {
+        weekdayShort = intlObj.value;
       }
-    };
-
-    formatted.forEach((item) => {
-      assignShortValues(item);
+      if (intlObj.type === "month") {
+        monthShort = intlObj.value;
+      }
     });
 
     setDates((prevDates) => {
