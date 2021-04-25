@@ -6,20 +6,14 @@ Easily get useful date-related information in JavaScript (uses browser built-in 
 
 This package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`); each of which return an object (_dates_) containing commonly used, date-related data. Each can also be passed an [options object](#options) to further customize the way the date information comes back. <br />
 
-### Sections:
-
-1. [Installation](#installation)
-2. [Documentation](#documentaton)
-3. [Feature List](#feature-list)
-4. [Why offer VanillaJS _and_ hook options?](#why-offer-vanillajs-and-hook-options)
-
 ## Installation
 
-- This npm package can be installed by running `npm install intl-dates --save-dev` from your command line
+- Install with npm: `npm install intl-dates --save-dev`
 - See [What is returned](https://github.com/ZumDeWald/intl-dates/date-info) for more info on what data is returned
 - See the [Examples Documentation](https://github.com/ZumDeWald/intl-dates/examples) for usage details
 
 ## Documentaton
+
 See the [extended documentation](https://github.com/ZumDeWald/intl-dates/wiki) for usage details and examples.
 
 ## Feature List
@@ -29,9 +23,9 @@ This list includes current and planned features. Check the issues page for a mor
 - [x] No dependencies, simply JavaScript code
 - [x] This package offers a VanillaJS and custom React hook option
 - [x] Options object accepts `locale` property to specify a locale/language for Intl to use
-- [x] Options object will allow a `date` property to get back data based on a specific date instead of only from the current day.
+- [x] Options object accepts `date` property to get back data based on a specific date (default is current day).
 - [x] Accounts for leap years when getting date information.
-- [ ] Option to set which days start and end the week for _weekStartDate_ and _weekEndDate_ (defaults to Sunday - Saturday currently)
+- [x] Options object accepts `weekStartsOn` property to make Monday the start of the week (default is Sunday)
 
 ## Why offer VanillaJS and hook options?
 
