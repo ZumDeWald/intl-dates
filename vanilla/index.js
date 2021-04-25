@@ -4,7 +4,7 @@ export default function intlDates({
   weekStartsOn = "SUN",
 } = {}) {
   // Ensure weekStartsOn is 3 letters all caps
-  weekStartsOn = weekStartsOn.substr(0, 2).toUpperCase();
+  weekStartsOn = weekStartsOn.substr(0, 3).toUpperCase();
 
   // Set options passed to Intl calls
   const intlBaseOptions = {

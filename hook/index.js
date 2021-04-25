@@ -6,7 +6,7 @@ export default function useIntlDates({
   weekStartsOn = "SUN",
 } = {}) {
   // Ensure weekStartsOn is 3 letters all caps
-  weekStartsOn = weekStartsOn.substr(0, 2).toUpperCase();
+  weekStartsOn = weekStartsOn.substr(0, 3).toUpperCase();
 
   const [intlBaseOptions] = useState({
     weekday: "long",
@@ -73,44 +73,32 @@ export default function useIntlDates({
     }
   };
 
-  const daysInMonth = (monthAsNum, yearAsNum) => {
-    switch (monthAsNum) {
-      case 1:
-        return 31;
-      case 2:
-        // Determine if it is a leap year and adjust Feburary if needed
-        if (yearAsNum % 4 !== 0) {
-          return 28;
-        } else if (yearAsNum % 100 !== 0) {
-          return 29;
-        } else if (yearAsNum % 400 !== 0) {
-          return 28;
-        } else {
-          return 29;
-        }
-      case 3:
-        return 31;
-      case 4:
-        return 30;
-      case 5:
-        return 31;
-      case 6:
-        return 30;
-      case 7:
-        return 31;
-      case 8:
-        return 31;
-      case 9:
-        return 30;
-      case 10:
-        return 31;
-      case 11:
-        return 30;
-      case 12:
-        return 31;
-      default:
-        return null;
+  const leapYearCheck = (yearAsNum) => {
+    // Determine if it is a leap year and adjust Feburary if needed
+    if (yearAsNum % 4 !== 0) {
+      return 28;
+    } else if (yearAsNum % 100 !== 0) {
+      return 29;
+    } else if (yearAsNum % 400 !== 0) {
+      return 28;
+    } else {
+      return 29;
     }
+  };
+
+  const daysInMonth = {
+    1: 31,
+    2: leapYearCheck(Number(year)),
+    3: 31,
+    4: 30,
+    5: 31,
+    6: 30,
+    7: 31,
+    8: 31,
+    9: 30,
+    10: 31,
+    11: 30,
+    12: 31,
   };
 
   // Set startValues with Intl -- locale must stay English here so switch above can match
@@ -174,7 +162,7 @@ export default function useIntlDates({
           prevYear = Number(year) - 1;
         }
 
-        const daysInPrevMonth = daysInMonth(prevMonth, Number(year));
+        const daysInPrevMonth = daysInMonth[prevMonth];
 
         weekStartDate = `${prevYear || year}-${prevMonth}-${
           daysInPrevMonth + beginOfMonthDiff
@@ -187,7 +175,7 @@ export default function useIntlDates({
       let weekEndDate;
       const endOfMonthDiff =
         findEndOfWeek(weekdayEng, Number(dayOfMonth)) -
-        daysInMonth(Number(monthNumeric), Number(year));
+        daysInMonth[monthNumeric];
 
       // Check if end of week is in next month
       if (endOfMonthDiff > 0) {
