@@ -4,13 +4,13 @@ Easily get useful date-related information in JavaScript (uses browser built-in 
 
 ### Description
 
-This package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`); each of which return an object (_dates_) containing commonly used, date-related data. Each can also be passed an [options object](#options) to further customize the way the date information comes back. <br />
+This package exports both a Vanilla JavaScript function (`intlDates`) and a custom React hook (`useIntlDates`); each of which return an object (_dates_) containing commonly used, date-related data. Each can also be passed an [options object](https://github.com/ZumDeWald/intl-dates/wiki/options) to further customize the way the date information comes back. <br />
 
 ## Installation
 
 - Install with npm: `npm install intl-dates --save-dev`
-- See [What is returned](https://github.com/ZumDeWald/intl-dates/date-info) for more info on what data is returned
-- See the [Examples Documentation](https://github.com/ZumDeWald/intl-dates/examples) for usage details
+- See [What is returned](https://github.com/ZumDeWald/intl-dates/wiki/date-info) for more info on what data is returned
+- See the [Examples Documentation](https://github.com/ZumDeWald/intl-dates/wiki/examples) for usage details
 
 ## Documentaton
 
